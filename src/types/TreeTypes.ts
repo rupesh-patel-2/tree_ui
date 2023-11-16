@@ -1,6 +1,8 @@
 export interface PageComponent {
     name: string,
+    id?:number,
     description: string,
+    displayName?:string,
     fixed_postion?:string
 }
 
@@ -12,3 +14,4 @@ export interface TreeNode {
   top_component?: PageComponent,
   bottom_component?: PageComponent
 }
+

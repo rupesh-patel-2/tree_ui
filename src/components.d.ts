@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BottomLayer: typeof import('./components/site_editor/BottomLayer.vue')['default']
     Breadcrumb: typeof import('./components/functional/breadcrumb.vue')['default']
     Chat: typeof import('./components/functional/chat/chat.vue')['default']
     ChatContact: typeof import('./components/functional/chat/chat-contact.vue')['default']
@@ -21,13 +22,20 @@ declare module 'vue' {
     PageComponentContainer: typeof import('./components/page/PageComponentContainer.vue')['default']
     PageEditor: typeof import('./components/page/PageEditor.vue')['default']
     PrimaryButton: typeof import('./components/functional/buttons/PrimaryButton.vue')['default']
+    RenderedPage: typeof import('./components/site_editor/RenderedPage.vue')['default']
+    RightMenu: typeof import('./components/site_editor/RightMenu.vue')['default']
     RoundedPlus: typeof import('./components/icons/RoundedPlus.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SiteMap: typeof import('./components/site_editor/SiteMap.vue')['default']
+    SiteMapView: typeof import('./components/site_editor/SiteMapView.vue')['default']
     SitePageTree: typeof import('./components/SitePageTree.vue')['default']
     Spinner: typeof import('./components/functional/spinner.vue')['default']
     SvgFlag: typeof import('./components/functional/svg-icons/svg-flag.vue')['default']
     SvgIcon: typeof import('./components/functional/svg-icons/svg-icon.vue')['default']
+    TopLayer: typeof import('./components/site_editor/TopLayer.vue')['default']
+    TopNav: typeof import('./components/site_editor/TopNav.vue')['default']
+    Wireframe: typeof import('./components/site_editor/Wireframe.vue')['default']
     Zoomer: typeof import('./components/Zoomer.vue')['default']
   }
 }

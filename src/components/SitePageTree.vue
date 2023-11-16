@@ -1,17 +1,19 @@
 <template>
     <li>
-        <a href="javascript:void(0);">
-            <div class="member-view-box">
+        <a href="javascript:void(0);" :class="editDrawerOpen ? 'ring-blue-300 ring-2' : '' " class=" focus:ring-2 focus:ring-blue-300">
+            <div class="member-view-box  ">
                 
                     
                 <div class="member-details">
-                    <h3>{{ node.name }} <EditIcon @click="editDrawerOpen = true" /></h3> 
+                    <h3 @click="selectPage" class="cursor-pointer">{{ node.name }} </h3> 
                 </div>
                 <PageComponentContainer 
                     :TopComponent="props.node.top_component" 
                     :BottomComponent="props.node.bottom_component" 
                     :PageComponents="$props.node.components"
                     @componentsChanged="handleCompChange"
+                    :editable="false"
+                    @removeComponentByIndex="removeComponentByIndex"
                     >
                 </PageComponentContainer>
                 
@@ -24,37 +26,56 @@
         
         <ul v-if="node.children">
             <li v-for="(childNode,nodeInd) in node.children">
-                <SitePageTree 
-                   
-                    @changeInTree="(tNode:TreeNode) => { handleChangeInTree(tNode,nodeInd)}"
+                <SitePageTree
+                    @changeInTree="(tNode:TreeNode) => { handleChangeInTree(tNode,nodeInd) }"
                     :key="childNode.id"
                     :node="childNode"
                 ></SitePageTree>
             </li>
         </ul>
-
-        <Teleport to="body">
-            <Drawer class="absolute" :is_open="editDrawerOpen" @close="editDrawerOpen = false" :max_width="'lg'"  >
-                <template #content>
-                    <div class="flex flex-row-reverse"> 
-                        <SvgIcon name="close" @click="editDrawerOpen = false" />
-                    </div>
-                    <h3>{{ node?.name }} </h3>
+        <Teleport v-if="editDrawerOpen && siteMapStore.showComponentEditor" to="#page_editor">
+            <div class="w-[300px] h-[450px] overflow-y-scroll">    
+               
+                    
 
                     <div>
                     <form>
                         <br/>
                         <div class="relative z-0 w-full mb-6 group">
                             <input  type="text" v-model="node.name"  class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                            <label  class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Page Title</label>
+                            
                         </div>
+                        
+                        <div>
+                            <PageComponentContainer v-if="editDrawerOpen" 
+                                :TopComponent="props.node.top_component" 
+                                :BottomComponent="props.node.bottom_component" 
+                                :PageComponents="$props.node.components"
+                                @componentsChanged="handleCompChange"
+                                @propRemoved="handlePropRemoved"
+                                @removeComponentByIndex="removeComponentByIndex"
+                                :editable="true"
+                                >
+                            </PageComponentContainer>
+                        </div>
+                        
                     </form>
-
+                    
                     </div>
                     
-                </template>
-            </Drawer>
+            </div>
         </Teleport>
+        
+        <Teleport v-if="addNewCompOpen && siteMapStore.showComponentEditor" to="#component_adder">
+            <div class="w-[300px] h-[450px] overflow-y-scroll">    
+               
+                    
+                Here we will add 
+                    
+                    
+            </div>
+        </Teleport>
+
     </li>
 </template>
 
@@ -62,19 +83,46 @@
 import { PropType } from 'vue';
 import PageComponentContainer from '@/components/page/PageComponentContainer.vue';
 import { RoundedPlus } from '@/components/icons'
-import { TreeNode, PageComponent as PC } from './../types/TreeTypes'
-
-
-
+import { TreeNode, PageComponent as PC } from '@/types/TreeTypes'
+import { onClickOutside } from '@vueuse/core'
+import { siteMap } from '@/stores/sitemap';
+const siteMapStore = siteMap();
+const target = ref(null);
 const props = defineProps({
   node: {
     type: Object as PropType<TreeNode>,
     required: true,
   },
 });
-
+onClickOutside(target, (event) => console.log(event))
 let node = ref(props.node);
 const editDrawerOpen = ref(false);
+const addNewCompOpen = ref(false);
+watch(() => props.node, (newValue) => {
+      node.value = newValue;
+
+    });
+
+watch(
+    () => siteMapStore.showComponentEditor,
+    () => {
+        
+        if(siteMapStore.showComponentEditor == false){
+            editDrawerOpen.value = false;
+            addNewCompOpen.value = false;
+        }
+      console.log('isLoggedIn state changed, do something!')
+});
+
+const selectPage = () => {
+    siteMapStore.setShowComponentEditor(false)
+    
+    nextTick(()=>{
+        editDrawerOpen.value = true;
+        addNewCompOpen.value = true;
+        siteMapStore.setShowComponentEditor(true);
+    })
+}
 
 const emit = defineEmits(['changeInTree','editPage']);
 const handleCompChange = ( changedComponents:Array<PC> ) => {
@@ -85,6 +133,23 @@ const handleChangeInTree = (tNode:TreeNode,nodeInex:number) => {
     if(node.value.children){
         node.value.children[nodeInex] = tNode;
     }
+    emit('changeInTree',node.value);
+}
+
+const handlePropRemoved = (propName:any)=>{
+    
+    if(propName == 'bottom_component')
+        delete  node.value.bottom_component;
+    else if( propName == 'top_component')
+        delete  node.value.top_component;
+
+    emit('changeInTree',node.value);
+}
+
+const removeComponentByIndex = (index:number) => {
+    
+    node.value.components?.splice(index,1);
+   
     emit('changeInTree',node.value);
 }
 
@@ -129,9 +194,9 @@ const addNewChild = () => {
 /*----------------genealogy-tree----------*/
 .genealogy-body{
     white-space: nowrap;
-    overflow-y: hidden;
+    overflow: hidden;
     padding: 50px;
-    min-height: 500px;
+    height: 500px;
     padding-top: 10px;
 }
 .genealogy-tree ul  {

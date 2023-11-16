@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Zoomer from '@/components/Zoomer.vue'
 import SitePageTree from '@/components/SitePageTree.vue'
-import { TreeNode } from '@/types/TreeTypes';
+import { TreeNode, PageComponent as PC } from '@/types/TreeTypes';
 
 // useRoute, useHead, and HelloWorld are automatically imported. See vite.config.ts for details.
 const route = useRoute()
@@ -40,10 +40,83 @@ let siteMap:TreeNode = {
   bottom_component : {name:"footer", 'description' : "I am your page footer"},
     
     children: [
+    /*  {
+        name: "About Us", 
+        id: 2,
+      },
       {
         name: "About Us", 
         id: 2,
       },
+      {
+        name: "About Us", 
+        id: 2,
+      },
+      {
+        name: "About Us", 
+        id: 2,
+      },
+      {
+        name: "About Us", 
+        id: 2,
+      },
+      {
+        name: "About Us", 
+        id: 2,
+      },
+      {
+        name: "About Us", 
+        id: 2,
+      },
+      {
+        name: "About Us", 
+        id: 2,
+      },
+      {
+        name: "About Us", 
+        id: 2,
+      },
+      {
+        name: "About Us", 
+        id: 2,
+      },
+      {
+        name: "About Us", 
+        id: 2,
+      },
+      {
+        name: "About Us", 
+        id: 2,
+      },
+      {
+        name: "About Us", 
+        id: 2,
+      },
+      {
+        name: "About Us", 
+        id: 2,
+      },
+      {
+        name: "About Us", 
+        id: 2,
+      },
+      {
+        name: "About Us", 
+        id: 2,
+      },
+      {
+        name: "About Us", 
+        id: 2,
+      },
+      {
+        name: "About Us", 
+        id: 2,
+      }, */
+      {
+        name: "About Us", 
+        id: 2,
+      },
+
       {
         name: "Contact Us", 
         id: 3,
@@ -71,9 +144,18 @@ let siteMap:TreeNode = {
     ]
   }
 
+const siteMapRef = ref(siteMap);
+
+let availableComponents:Array<PC> = [
+  {id:1,name:'c1',displayName:'Comp 1',description:"I am comp 1"},
+  {id:2,name:'c2',displayName:'Comp 2',description:"I am comp 2"},
+  {id:3,name:'c3',displayName:'Comp 3',description:"I am comp 3"},
+  {id:4,name:'c4',displayName:'Comp 4',description:"I am comp 4"},
+]
+
   const handleChangeInTree = (tNode:TreeNode) => {
     console.log(tNode, "Seeing change from root page");
-    siteMap = tNode;
+    siteMapRef.value = tNode;
   }
 
   const downloadJson = () => {
@@ -84,7 +166,8 @@ let siteMap:TreeNode = {
       dlAnchorElem.setAttribute("download", "site_map.json");
       dlAnchorElem.click();
     }
-  } 
+  }
+
 
 </script>
 
@@ -99,7 +182,7 @@ let siteMap:TreeNode = {
       <div class="">
         <div class="genealogy-tree">
           <ul class="tree">
-          <SitePageTree :node="siteMap" 
+          <SitePageTree :node="siteMapRef"  :availableComponents="availableComponents"
           @changeInTree="handleChangeInTree" >
           </SitePageTree>
         </ul>
@@ -107,27 +190,18 @@ let siteMap:TreeNode = {
       </div>
     </Zoomer>
 
-    
-    
-    </div>
-
-    <div class="action flex flex-row-reverse">
+    <div class="action flex flex-row-reverse absolute">
       <a id="downloadAnchorElem" style="display:none"></a>
       <button type="button" @click="downloadJson"
         class="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:focus:ring-yellow-900">
         Download Json
       </button>
     </div>
+    
+    </div>
+
+    
   
-    <footer class="py-6 text-sm text-center text-gray-700">
-        <p>
-          Site Editor by
-          <a class="underline" href="">@Rupesh</a> &copy; 2022-{{
-            thisYear
-          }}.
-          <template v-if="BUILD_DATE"> Site built {{ BUILD_DATE.toLocaleDateString() }}. </template>
-          <template v-else> Development mode. </template>
-        </p>
-      </footer>
+   
   </div>
 </template>

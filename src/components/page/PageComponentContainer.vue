@@ -3,14 +3,16 @@
         
        
         <template  v-if="TopComponent"  >
-            <PageComponent   :comp="TopComponent" ></PageComponent>
+            <PageComponent :index="-1" @removeComponent="(index) => {removeComponent(index)}" :editable="editable"  :comp="TopComponent" ></PageComponent>
         </template>
 
             <Sortable ref="sortables"
+            @update="onUpdate"
                 :list="compList"
                 item-key="id"
                 tag="div"
                 :options="{ delay: 1}"
+                
                 @end="(event: Sortable.SortableEvent) => { handleSortEnd(event)}"
                 >
                 <template #header>
@@ -18,7 +20,7 @@
                 </template>
                 
                 <template #item="{element, index}">
-                    <PageComponent   class="cursor-move" :comp="element" :key="index"></PageComponent>
+                    <PageComponent :index="index"  @removeComponent="(index) => {removeComponent(index)}" :editable="editable" class="cursor-move" :comp="element" :key="index"></PageComponent>
                 </template>
 
                 <template #footer>
@@ -27,7 +29,7 @@
                 
             </Sortable>
             <template  v-if="BottomComponent"  >
-                <PageComponent   :comp="BottomComponent" ></PageComponent>
+                <PageComponent :index="9999999" @removeComponent="(index) => {removeComponent(index)}" :editable="editable"  :comp="BottomComponent" ></PageComponent>
             </template>
         
     </div>
@@ -40,18 +42,43 @@
     const props = defineProps<{
         PageComponents?: Array<PC>
         TopComponent?:PC,
-        BottomComponent?:PC
+        BottomComponent?:PC,
+        editable:boolean
     }> ();
 
-    const emit = defineEmits(['componentsChanged'])
+    const emit = defineEmits(['componentsChanged','propRemoved','removeComponentByIndex'])
 
     let compList:Array<PC>|undefined = props.PageComponents;
     const sortables = ref(null);
     const handleSortEnd = (event: Sortable.SortableEvent) => {
-        compList = compList ? compList : [];
-        let temp = compList[event.newIndex];
-        compList[event.newIndex] = compList[event.oldIndex];
-        compList[event.oldIndex] = temp;
-        emit('componentsChanged', compList);
+        console.log(event);
+        //compList = compList ? compList : [];
+        //let temp = compList[event.newIndex];
+        //compList[event.newIndex] = compList[event.oldIndex];
+        //nextTick(() => compList[event.oldIndex] = temp);
+        
+        //moveItemInArray(event.oldIndex, event.newIndex);
+        //emit('componentsChanged', compList);
+        
+    }
+
+    
+
+    const onUpdate = (event:any) => {
+
+        console.log(compList, event);
+    }
+
+    function removeComponent(index:any){
+        
+        if(index == -1){
+            emit('propRemoved','top_component')
+        } else if(index == 9999999){
+            emit('propRemoved','bottom_component')
+        } else {
+            
+           emit('removeComponentByIndex',index);
+        }
+        
     }
 </script>
