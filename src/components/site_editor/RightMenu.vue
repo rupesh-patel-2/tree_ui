@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="flex w-[400px] flex-row-reverse" :style="{ pointerEvents: 'auto' }">
+        <div class="flex w-[400px] flex-row-reverse" :style="{ pointerEvents: 'none' }">
             <div class="w-1/5 h-full item-center">
                 <div class="flex flex-col h-[500px] items-center justify-center" :style="{ pointerEvents: 'auto' }">
                     <div class="flex flex-col" v-if="siteMapStore.showComponentEditor" :style="{ pointerEvents: 'auto' }">
@@ -32,19 +32,14 @@ const addCompVisible = ref(false);
 
 
 const showMenuItem = (showItem:string) => {
-    
     editorVisible.value = false;
     addCompVisible.value = false;
     if(showItem == 'addComp'){
         addCompVisible.value = true;
     }
-    
     if(showItem == 'editPage') {
-        
         editorVisible.value = true;
     }
-    
-
 }
 
 </script>

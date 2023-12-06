@@ -27,7 +27,6 @@ declare module 'vue' {
     RoundedPlus: typeof import('./components/icons/RoundedPlus.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    SiteMap: typeof import('./components/site_editor/SiteMap.vue')['default']
     SiteMapView: typeof import('./components/site_editor/SiteMapView.vue')['default']
     SitePageTree: typeof import('./components/SitePageTree.vue')['default']
     Spinner: typeof import('./components/functional/spinner.vue')['default']

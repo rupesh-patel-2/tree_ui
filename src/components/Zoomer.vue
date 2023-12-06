@@ -1,13 +1,13 @@
 <template>
     <div ref="container" 
-     @wheel="scrollHandler" 
-    
+    @wheel="scrollHandler"
     @mousedown="(ev) => { handleMouseDown(ev) }" 
     @mouseup="(ev) => { handleMouseUp(ev) }" 
     @mousemove="(ev) => {handleDrag(ev)}" 
 
-    :style="componentStyles">
-    {{ draging }}   
+    :style="componentStyles"
+    >
+    
     <slot class="no_drag"></slot>
     </div>
 </template>
@@ -37,8 +37,20 @@ let offsetY = 0;
 
 
 const scrollHandler = (event: any) => {
-    //return false;
+    if(!event.ctrlKey){
+        return false;
+    } else {
+        handleZoom(event);
+    }
+    console.log('scroll evetn');
+    
+
+
+}
+
+const handleZoom = (event:any) => {
     event.preventDefault();
+    // return false;
    // console.log(event.deltaY + '  ' + speed);
     /*const scaleStep = event.deltaY > 0 ? 0.9 : 1.1;
     currentScale = parseFloat(componentStyles.transform.split("scale(")[1]) * scaleStep;
@@ -77,12 +89,12 @@ const scrollHandler = (event: any) => {
         behavior: 'auto', // Use 'auto' for instant scrolling
     };
     offsetParent.scrollTo(scrollTo);
-
+/*
     offsetX = nextOffsetX;
     offsetY = nextOffsetY;
     currentScale   = nextScale;
 
-    /*let scrollTo = {
+    let scrollTo = {
         left: scrollLeft ,
         top: scrollTop ,
         behavior: 'auto', // Use 'auto' for instant scrolling
@@ -90,9 +102,8 @@ const scrollHandler = (event: any) => {
     //console.log(rect,containerRect)
     console.log(scrollTo, {left:offsetParent.scrollLeft, top:  offsetParent.scrollTop });
     offsetParent.scrollTo(scrollTo);*/
-
-
 }
+
 let point = {
     x : 0,
     y: 0
@@ -138,6 +149,14 @@ const handleMouseUp = (event: any) => {
     draging = false ; point = {x:0,y:0};
     componentStyles.cursor = 'grab';
 }
+
+window.addEventListener("keydown", function(event){
+    
+  if(event.ctrlKey){
+    console.log('ctrl found 1');
+  }
+});
+
 
 </script>
 

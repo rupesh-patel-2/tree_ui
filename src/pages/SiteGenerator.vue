@@ -1,5 +1,5 @@
 <template>
-    <div class="app-container h-screen w-full "  >
+    <div class="app-container h-screen w-full bg-gray-100  "  >
       <TopLayer > 
         <template #top>
             <TopNav></TopNav>
@@ -33,17 +33,21 @@
 
   const siteMapStore = siteMap();
   siteMapStore.setSiteMap(siteMapJson);
-
+  window.siteMapStore = siteMapStore;
   </script>
   
   <style>
   .app-container {
     overflow-y: auto;
-    -ms-overflow-style: none;  /* Internet Explorer 10+ */
-    scrollbar-width: none;  /* Firefox */
+    /*-ms-overflow-style: none; 
+    scrollbar-width: none;*/  
 }
 .app-container::-webkit-scrollbar { 
-    display: none;  /* Safari and Chrome */
+  display: none;  
+}
+
+.app-container .scrollable::-webkit-scrollbar {
+  display: auto;  
 }
 
   </style>

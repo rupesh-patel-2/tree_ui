@@ -2,6 +2,7 @@
 import Zoomer from '@/components/Zoomer.vue'
 import SitePageTree from '@/components/SitePageTree.vue'
 import { TreeNode, PageComponent as PC } from '@/types/TreeTypes';
+import router from '@/router';
 
 // useRoute, useHead, and HelloWorld are automatically imported. See vite.config.ts for details.
 const route = useRoute()
@@ -168,6 +169,9 @@ let availableComponents:Array<PC> = [
     }
   }
 
+  const goToNewPage = () => {
+    router.push('/generator');
+  }
 
 </script>
 
@@ -175,7 +179,7 @@ let availableComponents:Array<PC> = [
 
 <template>
   <div class="relative py-8">
-    
+    <button class="button bg-blue-600 rounded-lg m-2 p-2 text-white " @click="goToNewPage"> Go to New Page</button>
     <div class="body min-h-screen genealogy-body  absolute inset-0 container relative  mx-auto bg-white shadow-xl shadow-slate-700/10 ring-1 ring-gray-900/5 
     bg-[url(/img/grid.svg)] bg-top " >
     <Zoomer>

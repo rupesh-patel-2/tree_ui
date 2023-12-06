@@ -22,7 +22,7 @@ import { viewDepthKey } from 'vue-router';
                 
                 <li class="w-full" @click="()=>{changeView('wireframe')}" >
                     <a v-if="siteMapStore.currentView == 'wireframe'" href="#" 
-                    class="inline-block w-full p-2 text-gray-900 bg-gray-100 rounded-l-lg focus:ring-1 focus:ring-blue-300  focus:outline-none dark:bg-gray-700 dark:text-white" aria-current="page">
+                    class="inline-block w-full p-2 text-gray-900 bg-gray-100 rounded-r-lg focus:ring-1 focus:ring-blue-300  focus:outline-none dark:bg-gray-700 dark:text-white" aria-current="page">
                         Wireframe
                     </a>
                     <a v-else href="#" 

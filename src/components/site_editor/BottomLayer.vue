@@ -1,5 +1,5 @@
 <template>
-    <div  class="relative w-full min-h-[900px] bg-gray-100 z-1 " @click="clickHandler">
+    <div  class="relative w-full min-h-[900px]  z-1 " @click="clickHandler">
       
       <slot>
         <p class="text-gray-600">Your Scrollable Content</p>

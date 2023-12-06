@@ -11,6 +11,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 export default defineConfig({
+  base:'bryte/sitemap',
   plugins: [
     vue(),
     AutoImport({
