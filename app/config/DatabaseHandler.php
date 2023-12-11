@@ -23,8 +23,12 @@ class DatabaseHandler
 
     public function insert($table, $data)
     {
-        $columns = implode(", ", array_keys($data));
-        $values = "'" . implode("', '", $data) . "'";
+
+        // Escape the data to prevent SQL injection
+        $escapedData = array_map(array($this->connection, 'real_escape_string'), $data);
+
+        $columns = implode(", ", array_keys($escapedData));
+        $values = "'" . implode("', '", $escapedData) . "'";
 
         $sql = "INSERT INTO $table ($columns) VALUES ($values)";
 
