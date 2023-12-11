@@ -46,11 +46,16 @@ class Launcher
 
     public function sendResponse()
     {
+        if(!$this->response){
+            $this->setHeader('HTTP/1.0 404 Not Found');
+            $this->response = ['code' => 404];
+        }
         $this->sendResponseHeaders();
+
         echo json_encode($this->response);
     }
 
-    public function setHeader($key, $value)
+    public function setHeader($key, $value = false)
     {
         $this->responseHeaders[$key] = $value;
     }
@@ -58,7 +63,11 @@ class Launcher
     public function sendResponseHeaders()
     {
         foreach ($this->responseHeaders as $header => $headerValue) {
-            header($header . ': ' . $headerValue);
+            if($headerValue == false){
+                header($header);
+            } else {
+                header($header . ': ' . $headerValue);
+            }
         }
     }
 }
