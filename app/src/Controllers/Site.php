@@ -9,7 +9,7 @@ class Site
     public static function add()
     {
         $data = [
-            'name'    => $_REQUEST['name'],
+            'name'    => $_POST['name'],
             'user_id' => $_SESSION['LoggedInUser']['id'] ?? 1,
         ];
         $site = new SiteModel();
