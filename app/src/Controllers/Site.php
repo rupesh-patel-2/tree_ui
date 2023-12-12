@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Core\DatabaseHandler;
 use Models\SiteModel;
 
 class Site
@@ -10,6 +11,7 @@ class Site
     {
         $data = [
             'name'    => $_POST['name'],
+            'uuid'    => DatabaseHandler::generateUUId(),
             'user_id' => $_SESSION['LoggedInUser']['id'] ?? 1,
         ];
         $site = new SiteModel();

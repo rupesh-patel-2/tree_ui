@@ -44,7 +44,7 @@ class DatabaseHandler
         }
     }
 
-    public function select($table, $conditions)
+    public function select($table, $conditions = [])
     {
         $query = "SELECT * FROM " . $table;
 
