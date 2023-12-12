@@ -23,4 +23,19 @@ class PageModel
         $result = $databaseHandler->insert($this->tableName, $pageData);
         return $result;
     }
+
+    public function edit($pageData)
+    {
+        $whereClause = ['id' => $_REQUEST['id']];
+        $databaseHandler = new DatabaseHandler();
+        $result = $databaseHandler->select($this->tableName, $whereClause);
+
+        if (!empty($result)) {
+            $pageData['updated_at'] = $this->timeStamp;
+            $updateResult = $databaseHandler->update($this->tableName, $pageData, $whereClause);
+            return $updateResult;
+        } else {
+            return false;
+        }
+    }
 }

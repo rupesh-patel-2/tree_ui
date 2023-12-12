@@ -43,4 +43,59 @@ class DatabaseHandler
             return $sql . "<br>" . mysqli_error($this->connection);
         }
     }
+
+    public function select($table, $conditions)
+    {
+        $query = "SELECT * FROM " . $table;
+
+        if (!empty($conditions)) {
+            $whereClause = array();
+            foreach ($conditions as $column => $value) {
+                $value = mysqli_real_escape_string($this->connection, $value);
+                $whereClause[] = "$column = '$value'";
+            }
+            $query .= " WHERE " . implode(" AND ", $whereClause);
+        }
+
+        $result = mysqli_query($this->connection, $query);
+
+        if (!$result) {
+            return $query . "<br>" . mysqli_error($this->connection);
+        }
+
+        $data = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $data[] = $row;
+        }
+        return $data;
+    }
+
+
+    public function update($table, $updateData, $conditions)
+    {
+        $query = "UPDATE " . $table . " SET ";
+
+        $setClause = array();
+        foreach ($updateData as $column => $value) {
+            $value = mysqli_real_escape_string($this->connection, $value);
+            $setClause[] = "$column = '$value'";
+        }
+        $query .= implode(", ", $setClause);
+
+        if (!empty($conditions)) {
+            $whereClause = array();
+            foreach ($conditions as $column => $value) {
+                $value = mysqli_real_escape_string($this->connection, $value);
+                $whereClause[] = "$column = '$value'";
+            }
+            $query .= " WHERE " . implode(" AND ", $whereClause);
+        }
+
+        $result = mysqli_query($this->connection, $query);
+
+        if (!$result) {
+            return $query . "<br>" . mysqli_error($this->connection);
+        }
+        return $result;
+    }
 }

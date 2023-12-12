@@ -27,4 +27,25 @@ class Page
             ];
         }
     }
+
+    public static function edit()
+    {
+        $data = [
+            'name'    => $_REQUEST['name'],
+            'id' => $_REQUEST['id'],
+        ];
+        $page = new PageModel();
+        $res = $page->edit($data);
+        if ($res) {
+            return [
+                'code' => 200,
+                'message' => 'Page has been updated successfully'
+            ];
+        } else {
+            return [
+                'code' => 400,
+                'message' => 'Page failed to update'
+            ];
+        }
+    }
 }
