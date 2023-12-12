@@ -14,7 +14,6 @@ class Page
         $data = [
             'name'      => $_POST['name'],
             'slug'      => self::generateSlug($_POST['name']),
-            'user_id'   => $_SESSION['LoggedInUser']['id'] ?? 1,
             'site_id'   => $_POST['site_id'],
             'uuid'      => DatabaseHandler::generateUUId()
         ];
