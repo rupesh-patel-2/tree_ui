@@ -10,7 +10,7 @@ class Site
     {
         $data = [
             'name'    => $_REQUEST['name'],
-            'user_id' => $_SESSION['loggedInUser']['id'] ?? 1,
+            'user_id' => $_SESSION['LoggedInUser']['id'] ?? 1,
         ];
         $site = new SiteModel();
         $res = $site->add($data);
