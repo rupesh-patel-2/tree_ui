@@ -6,15 +6,25 @@ use Core\DatabaseHandler as CoreDatabaseHandler;
 
 class SiteModel
 {
+    public $tableName;
+
+    public $timeStamp;
+
+    public function __construct()
+    {
+        $this->tableName = 'sites';
+        $this->timeStamp = date("Y-m-d H:i:s");
+    }
+
     public function add($data)
     {
-        $insertData = [
-            'name' => $data['name'] ?? 'Asad Mansuri',
-            'user_id' => $data['user_id'] ?? 1,
-            'created_at' => date("Y-m-d H:i:s")
+        $siteData = [
+            'name'       => $data['name'],
+            'user_id'    => $data['user_id'],
+            'created_at' => $this->timeStamp
         ];
         $databaseHandler = new CoreDatabaseHandler();
-        $result = $databaseHandler->insert('sites', $insertData);
+        $result = $databaseHandler->insert($this->tableName, $siteData);
         return $result;
     }
 }

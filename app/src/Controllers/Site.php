@@ -6,13 +6,12 @@ use Models\SiteModel;
 
 class Site
 {
-
-
     public static function add()
     {
-        // echo $connection;
-        // die;
-        $data = $_REQUEST['params'];
+        $data = [
+            'name'    => $_REQUEST['name'],
+            'user_id' => $_REQUEST['user_id'],
+        ];
         $site = new SiteModel();
         $res = $site->add($data);
         if ($res) {
