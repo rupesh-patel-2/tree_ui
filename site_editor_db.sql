@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 11, 2023 at 07:25 PM
+-- Generation Time: Dec 12, 2023 at 06:59 PM
 -- Server version: 8.0.35-0ubuntu0.22.04.1
 -- PHP Version: 8.1.2-1ubuntu2.14
 
@@ -24,11 +24,55 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `components`
+--
+
+CREATE TABLE `components` (
+  `id` int NOT NULL,
+  `uuid` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pages`
+--
+
+CREATE TABLE `pages` (
+  `id` int NOT NULL,
+  `uuid` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `slug` varchar(255) DEFAULT NULL,
+  `site_id` int DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `page_components`
+--
+
+CREATE TABLE `page_components` (
+  `id` int NOT NULL,
+  `page_id` int DEFAULT NULL,
+  `component_id` int DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sites`
 --
 
 CREATE TABLE `sites` (
   `id` int NOT NULL,
+  `uuid` varchar(255) DEFAULT NULL,
   `user_id` int DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
@@ -56,11 +100,32 @@ CREATE TABLE `users` (
 --
 
 --
+-- Indexes for table `components`
+--
+ALTER TABLE `components`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `pages`
+--
+ALTER TABLE `pages`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_sites_site_id` (`site_id`);
+
+--
+-- Indexes for table `page_components`
+--
+ALTER TABLE `page_components`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_page_components_page_id` (`page_id`),
+  ADD KEY `fk_page_components_component_id` (`component_id`);
+
+--
 -- Indexes for table `sites`
 --
 ALTER TABLE `sites`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_users_id` (`user_id`);
+  ADD KEY `fk_sites_user_id` (`user_id`);
 
 --
 -- Indexes for table `users`
@@ -73,6 +138,24 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `components`
+--
+ALTER TABLE `components`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `pages`
+--
+ALTER TABLE `pages`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `page_components`
+--
+ALTER TABLE `page_components`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `sites`
 --
 ALTER TABLE `sites`
@@ -83,6 +166,29 @@ ALTER TABLE `sites`
 --
 ALTER TABLE `users`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `pages`
+--
+ALTER TABLE `pages`
+  ADD CONSTRAINT `fk_sites_site_id` FOREIGN KEY (`site_id`) REFERENCES `sites` (`id`);
+
+--
+-- Constraints for table `page_components`
+--
+ALTER TABLE `page_components`
+  ADD CONSTRAINT `fk_page_components_component_id` FOREIGN KEY (`component_id`) REFERENCES `components` (`id`),
+  ADD CONSTRAINT `fk_page_components_page_id` FOREIGN KEY (`page_id`) REFERENCES `pages` (`id`);
+
+--
+-- Constraints for table `sites`
+--
+ALTER TABLE `sites`
+  ADD CONSTRAINT `fk_sites_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
