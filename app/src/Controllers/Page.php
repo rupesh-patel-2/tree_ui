@@ -3,6 +3,7 @@
 namespace Controllers;
 
 use Core\DatabaseHandler;
+use Models\PageComponentModel;
 use Models\PageModel;
 
 class Page
@@ -57,5 +58,26 @@ class Page
     public static function generateSlug($slug)
     {
         return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $slug)));
+    }
+
+    public static function addComponent()
+    {
+        $data = [
+            'page_id'        => $_POST['page_id'],
+            'component_id'   => $_POST['component_id'],
+        ];
+        $pageComponent = new PageComponentModel();
+        $res = $pageComponent->add($data);
+        if ($res) {
+            return [
+                'code' => 200,
+                'message' => 'Component has been added successfully'
+            ];
+        } else {
+            return [
+                'code' => 400,
+                'message' => 'Component failed to add'
+            ];
+        }
     }
 }
