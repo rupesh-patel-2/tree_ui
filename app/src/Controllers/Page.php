@@ -2,16 +2,19 @@
 
 namespace Controllers;
 
+use Core\DatabaseHandler;
 use Models\PageModel;
 
 class Page
 {
+
     public static function add()
     {
         $data = [
-            'name'    => $_REQUEST['name'],
-            'user_id' => $_SESSION['LoggedInUser']['id'] ?? 1,
-            'site_id' => $_REQUEST['site_id'],
+            'name'      => $_POST['name'],
+            'user_id'   => $_SESSION['LoggedInUser']['id'] ?? 1,
+            'site_id'   => $_POST['site_id'],
+            'uuid'      => DatabaseHandler::generateUUId()
         ];
         $page = new PageModel();
         $res = $page->add($data);
@@ -31,8 +34,8 @@ class Page
     public static function edit()
     {
         $data = [
-            'name'    => $_REQUEST['name'],
-            'id' => $_REQUEST['id'],
+            'name' => $_POST['name'],
+            'uuid' => $_POST['uuid'],
         ];
         $page = new PageModel();
         $res = $page->edit($data);

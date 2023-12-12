@@ -98,4 +98,21 @@ class DatabaseHandler
         }
         return $result;
     }
+
+    public function prepareQuery($query = '', $params = [])
+    {
+        foreach ($params as $key => $value) {
+            $replacements = '';
+            if (isset($params[$key - 1])) {
+                $replacements = mysqli_real_escape_string($this->connection, $params[$key - 1]);
+            }
+            $query = str_replace("##" . $key . "##", $replacements, $query);
+        }
+        return $query;
+    }
+
+    public static function generateUUId()
+    {
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex(random_bytes(16)), 4));
+    }
 }
