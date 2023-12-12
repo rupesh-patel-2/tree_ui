@@ -6,15 +6,21 @@ class DatabaseHandler
 {
 
     private $connection;
+    private $servername;
+    private $username;
+    private $password;
+    private $dbname;
 
     public function __construct()
     {
-        $servername = "localhost";
-        $username   = "root";
-        $password   = "12345678";
-        $dbname     = "site_editor_db";
+        $config = require_once __DIR__ . '/Config/Database.php';
+        $this->servername = $config['servername'];
+        $this->username = $config['username'];
+        $this->password = $config['password'];
+        $this->dbname = $config['dbname'];
 
-        $this->connection = mysqli_connect($servername, $username, $password, $dbname);
+        $this->connection = mysqli_connect($this->servername, $this->username, $this->password, $this->dbname);
+
 
         if (!$this->connection) {
             die("Connection failed: " . mysqli_connect_error());

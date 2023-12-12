@@ -2,7 +2,7 @@
 
 namespace Models;
 
-use Core\DatabaseHandler as CoreDatabaseHandler;
+use Core\DatabaseHandler;
 
 class SiteModel
 {
@@ -23,7 +23,7 @@ class SiteModel
             'user_id'    => $data['user_id'],
             'created_at' => $this->timeStamp
         ];
-        $databaseHandler = new CoreDatabaseHandler();
+        $databaseHandler = new DatabaseHandler();
         $result = $databaseHandler->insert($this->tableName, $siteData);
         return $result;
     }
