@@ -4,7 +4,7 @@ namespace Models;
 
 use Core\DatabaseHandler;
 
-class SiteModel
+class PageModel
 {
     public $tableName;
 
@@ -12,15 +12,15 @@ class SiteModel
 
     public function __construct()
     {
-        $this->tableName = 'sites';
+        $this->tableName = 'pages';
         $this->timeStamp = date("Y-m-d H:i:s");
     }
 
-    public function add($siteData)
+    public function add($pageData)
     {
-        $siteData['created_at'] = $this->timeStamp;
+        $pageData['created_at'] = $this->timeStamp;
         $databaseHandler = new DatabaseHandler();
-        $result = $databaseHandler->insert($this->tableName, $siteData);
+        $result = $databaseHandler->insert($this->tableName, $pageData);
         return $result;
     }
 }
