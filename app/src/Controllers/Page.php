@@ -100,4 +100,25 @@ class Page
             ];
         }
     }
+
+    public static function removeComponent()
+    {
+        $data = [
+            'page_id'        => $_POST['page_id'],
+            'component_id'   => $_POST['component_id'],
+        ];
+        $pageComponent = new PageComponentModel();
+        $res = $pageComponent->remove($data);
+        if ($res) {
+            return [
+                'code' => 200,
+                'message' => 'Component detached successfully',
+            ];
+        } else {
+            return [
+                'code' => 400,
+                'message' => 'Component failed to detach'
+            ];
+        }
+    }
 }

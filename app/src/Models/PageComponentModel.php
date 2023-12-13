@@ -46,4 +46,12 @@ class PageComponentModel
         $result = $databaseHandler->select($this->tableName, $whereClause);
         return !empty($result) ? $result : false;
     }
+
+    public function remove($data)
+    {
+        $whereClause = $data;
+        $databaseHandler = new DatabaseHandler();
+        $result = $databaseHandler->delete($this->tableName, $whereClause);
+        return !empty($result) ? $result : false;
+    }
 }

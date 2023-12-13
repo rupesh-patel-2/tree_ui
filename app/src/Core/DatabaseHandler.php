@@ -115,4 +115,26 @@ class DatabaseHandler
     {
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex(random_bytes(16)), 4));
     }
+
+    public function delete($table)
+    {
+        $query = "DELETE FROM " . $table;
+
+        if (!empty($conditions)) {
+            $whereClause = array();
+            foreach ($conditions as $column => $value) {
+                $value = mysqli_real_escape_string($this->connection, $value);
+                $whereClause[] = "$column = '$value'";
+            }
+            $query .= " WHERE " . implode(" AND ", $whereClause);
+        }
+
+        $result = mysqli_query($this->connection, $query);
+
+        if (!$result) {
+            return $query . "<br>" . mysqli_error($this->connection);
+        }
+
+        return $result;
+    }
 }
