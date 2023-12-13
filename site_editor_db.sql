@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 12, 2023 at 06:59 PM
+-- Generation Time: Dec 13, 2023 at 06:58 PM
 -- Server version: 8.0.35-0ubuntu0.22.04.1
 -- PHP Version: 8.1.2-1ubuntu2.14
 
@@ -43,6 +43,7 @@ CREATE TABLE `components` (
 
 CREATE TABLE `pages` (
   `id` int NOT NULL,
+  `parent_page_id` int DEFAULT NULL,
   `uuid` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   `slug` varchar(255) DEFAULT NULL,
@@ -61,7 +62,9 @@ CREATE TABLE `page_components` (
   `id` int NOT NULL,
   `page_id` int DEFAULT NULL,
   `component_id` int DEFAULT NULL,
-  `created_at` datetime DEFAULT NULL
+  `sequence_number` int DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -110,7 +113,8 @@ ALTER TABLE `components`
 --
 ALTER TABLE `pages`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_sites_site_id` (`site_id`);
+  ADD KEY `fk_sites_site_id` (`site_id`),
+  ADD KEY `parent_page_id` (`parent_page_id`);
 
 --
 -- Indexes for table `page_components`
@@ -118,7 +122,7 @@ ALTER TABLE `pages`
 ALTER TABLE `page_components`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_page_components_page_id` (`page_id`),
-  ADD KEY `fk_page_components_component_id` (`component_id`);
+  ADD KEY `fk_components_component_id` (`component_id`);
 
 --
 -- Indexes for table `sites`
@@ -175,13 +179,15 @@ ALTER TABLE `users`
 -- Constraints for table `pages`
 --
 ALTER TABLE `pages`
-  ADD CONSTRAINT `fk_sites_site_id` FOREIGN KEY (`site_id`) REFERENCES `sites` (`id`);
+  ADD CONSTRAINT `fk_pages_parent_page_id` FOREIGN KEY (`parent_page_id`) REFERENCES `pages` (`id`),
+  ADD CONSTRAINT `fk_sites_site_id` FOREIGN KEY (`site_id`) REFERENCES `sites` (`id`),
+  ADD CONSTRAINT `pages_ibfk_1` FOREIGN KEY (`parent_page_id`) REFERENCES `pages` (`id`) ON DELETE CASCADE ON UPDATE SET NULL;
 
 --
 -- Constraints for table `page_components`
 --
 ALTER TABLE `page_components`
-  ADD CONSTRAINT `fk_page_components_component_id` FOREIGN KEY (`component_id`) REFERENCES `components` (`id`),
+  ADD CONSTRAINT `fk_components_component_id` FOREIGN KEY (`component_id`) REFERENCES `components` (`id`),
   ADD CONSTRAINT `fk_page_components_page_id` FOREIGN KEY (`page_id`) REFERENCES `pages` (`id`);
 
 --
