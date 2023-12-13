@@ -7,13 +7,12 @@ use Models\ComponentModel;
 
 class Component
 {
-
     public static function add()
     {
         $data = [
             'name'        => $_POST['name'],
             'description' => $_POST['description'] ?? '',
-            'uuid'      => DatabaseHandler::generateUUId()
+            'uuid'        => DatabaseHandler::generateUUId()
         ];
         $component = new ComponentModel();
         $res = $component->add($data);

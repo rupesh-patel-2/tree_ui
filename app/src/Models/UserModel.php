@@ -2,10 +2,24 @@
 
 namespace Models;
 
+use Core\DatabaseHandler;
+
 class UserModel
 {
-    public function add()
+    public $tableName;
+
+    public $timeStamp;
+
+    public function __construct()
     {
-        return 'hello from model';
+        $this->tableName = 'users';
+        $this->timeStamp = date("Y-m-d H:i:s");
+    }
+
+    public function login($data)
+    {
+        $databaseHandler = new DatabaseHandler();
+        $result = $databaseHandler->select($this->tableName, $data);
+        return $result;
     }
 }

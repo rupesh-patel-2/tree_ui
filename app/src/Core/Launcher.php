@@ -16,7 +16,14 @@ class Launcher
 
     public function __construct()
     {
+        $this->setResponseHeaders();
         $this->processUrl();
+    }
+
+    public function setResponseHeaders()
+    {
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE PATCH');
     }
 
     public function setBaseUrl($url)
@@ -39,14 +46,14 @@ class Launcher
         $namespace = "Controllers";
 
         if ($controller && $action) {
-           $output = call_user_func($namespace . "\\" . "$controller::$action");
-           $this->response = $output;
+            $output = call_user_func($namespace . "\\" . "$controller::$action");
+            $this->response = $output;
         }
     }
 
     public function sendResponse()
     {
-        if(!$this->response){
+        if (!$this->response) {
             $this->setHeader('HTTP/1.0 404 Not Found');
             $this->response = ['code' => 404];
         }
@@ -63,7 +70,7 @@ class Launcher
     public function sendResponseHeaders()
     {
         foreach ($this->responseHeaders as $header => $headerValue) {
-            if($headerValue == false){
+            if ($headerValue == false) {
                 header($header);
             } else {
                 header($header . ': ' . $headerValue);

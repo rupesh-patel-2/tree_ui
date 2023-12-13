@@ -20,11 +20,11 @@ export const userStore = defineStore('user', () => {
     const authToken = ref('')
     const profileUrl = ref('/src/assets/images/users/guest.png');
     const isLoggedIn = ref(false);
-    const afterLoginRoute = ref('dashboard');
+    const afterLoginRoute = ref('/');
     const authType = "bearer";
     const loginRoute = ref('login');
     const getAuthBearerHeader:Function = () => {
-      return   `Bearer `+authToken.value; 
+      return authToken.value; 
     };
 
     const setAuthToken = ( token:string ) => {
@@ -36,7 +36,7 @@ export const userStore = defineStore('user', () => {
       lastName.value = user.lastName;
       email.value = user.email ? user.email : '';
       profileUrl.value = user.profileUrl ? user.profileUrl : '';
-      authToken.value = authToken.value ? authToken.value : '';
+      authToken.value = user.authToken ? user.authToken : '';
       isLoggedIn.value = true;
       localStorage.setItem('user',JSON.stringify(user))
     }
