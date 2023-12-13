@@ -79,4 +79,25 @@ class Page
             ];
         }
     }
+
+    public static function listComponents()
+    {
+        $data = [
+            'page_id'        => $_POST['page_id'],
+        ];
+        $pageComponent = new PageComponentModel();
+        $res = $pageComponent->list($data);
+        if ($res) {
+            return [
+                'code' => 200,
+                'message' => 'List of Components',
+                'data' => $res
+            ];
+        } else {
+            return [
+                'code' => 400,
+                'message' => 'No Component is attached to the page'
+            ];
+        }
+    }
 }

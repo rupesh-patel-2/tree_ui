@@ -26,7 +26,7 @@ class PageComponentModel
 
     public function edit($pageData)
     {
-        $whereClause = ['uuid' => $_REQUEST['uuid']];
+        $whereClause = ['uuid' => $_POST['uuid']];
         $databaseHandler = new DatabaseHandler();
         $result = $databaseHandler->select($this->tableName, $whereClause);
 
@@ -37,5 +37,13 @@ class PageComponentModel
         } else {
             return false;
         }
+    }
+
+    public function list($data)
+    {
+        $whereClause = $data;
+        $databaseHandler = new DatabaseHandler();
+        $result = $databaseHandler->select($this->tableName, $whereClause);
+        return !empty($result) ? $result : false;
     }
 }
