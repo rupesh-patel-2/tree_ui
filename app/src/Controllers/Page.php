@@ -6,6 +6,7 @@ use Core\DatabaseHandler;
 use Models\PageComponentModel;
 use Models\PageModel;
 
+require_once(__DIR__ . '/../Core/Config/CheckLogin.php');
 class Page
 {
 

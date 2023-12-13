@@ -5,6 +5,7 @@ namespace Controllers;
 use Core\DatabaseHandler;
 use Models\SiteModel;
 
+require_once(__DIR__ . '/../Core/Config/CheckLogin.php');
 class Site
 {
     public static function add()
@@ -12,7 +13,7 @@ class Site
         $data = [
             'name'    => $_POST['name'],
             'uuid'    => DatabaseHandler::generateUUId(),
-            'user_id' => $_SESSION['LoggedInUser']['id'] ?? 1,
+            'user_id' => $_SESSION['LoggedInUser']['id'],
         ];
         $site = new SiteModel();
         $res = $site->add($data);

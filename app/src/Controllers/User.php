@@ -6,6 +6,7 @@ use Models\UserModel;
 
 class User
 {
+
     public static function login()
     {
         $data = [

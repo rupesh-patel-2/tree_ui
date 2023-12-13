@@ -5,6 +5,7 @@ namespace Controllers;
 use Core\DatabaseHandler;
 use Models\ComponentModel;
 
+require_once(__DIR__ . '/../Core/Config/CheckLogin.php');
 class Component
 {
     public static function add()
