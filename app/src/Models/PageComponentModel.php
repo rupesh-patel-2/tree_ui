@@ -51,8 +51,9 @@ class PageComponentModel
     public function list($data)
     {
         $whereClause = $data;
+        $orderBy = '`sequence_number` ASC';
         $databaseHandler = new DatabaseHandler();
-        $result = $databaseHandler->select($this->tableName, $whereClause);
+        $result = $databaseHandler->select($this->tableName, $whereClause, $orderBy);
         return !empty($result) ? $result : false;
     }
 

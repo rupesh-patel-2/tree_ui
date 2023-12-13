@@ -44,7 +44,7 @@ class DatabaseHandler
         }
     }
 
-    public function select($table, $conditions = [])
+    public function select($table, $conditions = [], $orderBy = '')
     {
         $query = "SELECT * FROM " . $table;
 
@@ -55,6 +55,10 @@ class DatabaseHandler
                 $whereClause[] = "$column = '$value'";
             }
             $query .= " WHERE " . implode(" AND ", $whereClause);
+        }
+
+        if (!empty($orderBy)) {
+            $query .= " ORDER BY " . $orderBy;
         }
 
         $result = mysqli_query($this->connection, $query);
