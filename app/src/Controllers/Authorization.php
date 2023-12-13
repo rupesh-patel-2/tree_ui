@@ -5,7 +5,7 @@ namespace Controllers;
 use Models\UserModel;
 
 session_start();
-class User
+class Authorization
 {
 
     public static function login()
