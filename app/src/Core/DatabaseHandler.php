@@ -141,4 +141,19 @@ class DatabaseHandler
 
         return $result;
     }
+
+    public function beginTransaction()
+    {
+        $this->connection->begin_transaction();
+    }
+
+    public function commit()
+    {
+        $this->connection->commit();
+    }
+
+    public function rollback()
+    {
+        $this->connection->rollback();
+    }
 }

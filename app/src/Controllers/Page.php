@@ -126,4 +126,25 @@ class Page
             ];
         }
     }
+
+    public static function changeComponentOrder()
+    {
+        $data = [
+            'component_ids'   => $_POST['component_ids'],
+            'page_id'         => $_POST['page_id'],
+        ];
+        $pageComponent = new PageComponentModel();
+        $res = $pageComponent->changeOrder($data);
+        if ($res) {
+            return [
+                'code' => 200,
+                'message' => 'Components order changed successfully',
+            ];
+        } else {
+            return [
+                'code' => 400,
+                'message' => 'Component Order failed to change'
+            ];
+        }
+    }
 }

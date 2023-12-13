@@ -64,4 +64,30 @@ class PageComponentModel
         $result = $databaseHandler->delete($this->tableName, $whereClause);
         return !empty($result) ? $result : false;
     }
+
+    public function changeOrder($data)
+    {
+        $databaseHandler = new DatabaseHandler();
+
+        $databaseHandler->beginTransaction();
+
+        global $success;
+        $success = true;
+
+        foreach ($data['component_ids'] as $index => $componentId) {
+            $updateResult[] = $databaseHandler->update($this->tableName, ['sequence_number' => $index + 1, 'updated_at' => $this->timeStamp], ['component_id' => $componentId, 'page_id' => $data['page_id']]);
+            if ($updateResult === false) {
+                $success = false;
+                break;
+            }
+        }
+
+        if ($success) {
+            $databaseHandler->commit();
+            return true;
+        } else {
+            $databaseHandler->rollback();
+            return false;
+        }
+    }
 }
