@@ -13,11 +13,15 @@ class Page
     public static function add()
     {
         $data = [
-            'name'      => $_POST['name'],
-            'slug'      => self::generateSlug($_POST['name']),
-            'site_id'   => $_POST['site_id'],
-            'uuid'      => DatabaseHandler::generateUUId()
+            'name'                => $_POST['name'],
+            'slug'                => self::generateSlug($_POST['name']),
+            'site_id'             => $_POST['site_id'],
+            'uuid'                => DatabaseHandler::generateUUId()
         ];
+
+        if (!empty($_POST['parent_page_id'])) {
+            $data['parent_page_id'] = $_POST['parent_page_id'];
+        }
         $page = new PageModel();
         $res = $page->add($data);
         if ($res) {
