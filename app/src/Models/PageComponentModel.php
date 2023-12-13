@@ -18,8 +18,17 @@ class PageComponentModel
 
     public function add($pageComponentData)
     {
-        $pageComponentData['created_at'] = $this->timeStamp;
         $databaseHandler = new DatabaseHandler();
+        # Sequence Number Logic - Starts Here
+        if (!empty($pageComponentData['sequence_number'])) {
+            $pageComponentData['sequence_number'] = $pageComponentData['sequence_number'];
+        } else {
+            $addedComponents = $databaseHandler->select($this->tableName, ['page_id' => $pageComponentData['page_id']]);
+            $pageComponentData['sequence_number'] = count($addedComponents) + 1;
+        }
+        # Sequence Number Logic - Ends Here
+
+        $pageComponentData['created_at'] = $this->timeStamp;
         $result = $databaseHandler->insert($this->tableName, $pageComponentData);
         return $result;
     }
