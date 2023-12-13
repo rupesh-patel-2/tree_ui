@@ -4,6 +4,7 @@ namespace Controllers;
 
 use Models\UserModel;
 
+session_start();
 class User
 {
 

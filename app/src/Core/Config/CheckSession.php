@@ -4,5 +4,5 @@ if(isset($_REQUEST['key'])){
     if(!empty($parts[0])){
         session_id($parts[0]);
     }
+    session_start();
 }
-session_start();
