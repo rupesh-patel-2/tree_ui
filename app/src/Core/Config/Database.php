@@ -1,8 +1,9 @@
 <?php
 
 return  [
-    'servername' => 'localhost',
-    'username' => 'root',
-    'password' => '12345678',
-    'dbname' => 'site_editor_db',
+    'servername' => env( 'DB_HOST', 'localhost'),
+    'username' => env( 'DB_USERNAME', 'root'),
+    'password' => env( 'DB_PASSWORD', 'localhost'),
+    'dbname' => env( 'DB_DATABASE'),
+    'port' => env( 'DB_PORT', '3306'),
 ];
