@@ -14,8 +14,9 @@ class DatabaseHandler
 
     protected static $inst = false;
 
-    public static function inst(){
-        if(!self::$inst){
+    public static function inst()
+    {
+        if (!self::$inst) {
             self::$inst = new self();
         }
         return self::$inst;
@@ -31,7 +32,7 @@ class DatabaseHandler
         $this->port = $config['port'];
 
         $this->connection = mysqli_connect($this->servername, $this->username, $this->password, $this->dbname, $this->port);
-        
+
         if (!$this->connection) {
             die("Connection failed: " . mysqli_connect_error());
         }
@@ -80,7 +81,7 @@ class DatabaseHandler
         if (!empty($orderBy)) {
             $query .= " ORDER BY " . $orderBy;
         }
-        // echo $query; die;
+
         $result = mysqli_query($this->connection, $query);
 
         if (!$result) {
@@ -140,7 +141,7 @@ class DatabaseHandler
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex(random_bytes(16)), 4));
     }
 
-    public function delete($table)
+    public function delete($table, $conditions)
     {
         $query = "DELETE FROM " . $table;
 
@@ -160,6 +161,23 @@ class DatabaseHandler
         }
 
         return $result;
+    }
+
+    public function extractId($table, $uuid)
+    {
+        $escapedUuid = mysqli_real_escape_string($this->connection, $uuid);
+
+        $query = "SELECT `id` FROM $table WHERE `uuid` = '$escapedUuid'";
+
+        $result = mysqli_query($this->connection, $query);
+
+        if (!$result) {
+            die("Query failed: " . mysqli_error($this->connection));
+        }
+
+        $row = mysqli_fetch_assoc($result);
+
+        return !empty($row) ? $row['id'] : false;
     }
 
     public function beginTransaction()

@@ -56,19 +56,27 @@ class PageModel
 
         if ($rootPage) {
             $pageComponent = new PageComponentModel();
-            $rootPage['components'] = $pageComponent->components(['page_id' => $rootPage['id']]);
-            $rootPage['top_component'] = isset($rootPage['components'][0]) ? $rootPage['components'][0] : json_encode([]);
-            $rootPage['bottom_component'] = isset($rootPage['components'][count($rootPage['components']) - 1]) ? $rootPage['components'][count($rootPage['components']) - 1] : json_encode([]) ;
 
-            $rootPage['children'] = $this->loadChildren($rootPage['id']);
+            // Root Page Components
+            $rootPage['components'] = $pageComponent->components(['page_id' => $rootPage['id']]);
+
+            // Top Component
+            $rootPage['top_component'] = isset($rootPage['components'][0]) ? $rootPage['components'][0] : (object) array();
+
+            // Bottom Component
+            $rootPage['bottom_component'] = isset($rootPage['components'][count($rootPage['components']) - 1]) ? $rootPage['components'][count($rootPage['components']) - 1] : (object) array();
+
+            // Fetch Children Recursively
+            $rootPage['children'] = $this->loadChildren($rootPage['id'], $site_id);
         }
         return $rootPage;
     }
 
-    public function loadChildren($page_id)
+    public function loadChildren($page_id, $site_id)
     {
         $whereClause = [
-            'parent_page_id' => $page_id
+            'parent_page_id' => $page_id,
+            'site_id'        => $site_id
         ];
 
         $columns = 'pages.id,pages.name, pages.uuid';
@@ -80,7 +88,7 @@ class PageModel
 
 
         foreach ($children as $key => $child) {
-            $children[$key]['children'] = $this->loadChildren($child['id']);
+            $children[$key]['children'] = $this->loadChildren($child['id'], $site_id);
         }
 
         return $children;

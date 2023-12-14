@@ -15,12 +15,12 @@ class Page
         $data = [
             'name'                => $_POST['name'],
             'slug'                => self::generateSlug($_POST['name']),
-            'site_id'             => $_POST['site_id'],
+            'site_id'             => self::extractId('sites', $_POST['site_uuid']),
             'uuid'                => DatabaseHandler::generateUUId()
         ];
 
-        if (!empty($_POST['parent_page_id'])) {
-            $data['parent_page_id'] = $_POST['parent_page_id'];
+        if (!empty($_POST['parent_page_uuid'])) {
+            $data['parent_page_id'] = self::extractId('pages', $_POST['parent_page_uuid']);
         }
         $page = new PageModel();
         $res = $page->add($data);
@@ -67,8 +67,8 @@ class Page
     public static function addComponent()
     {
         $data = [
-            'page_id'        => $_POST['page_id'],
-            'component_id'   => $_POST['component_id'],
+            'page_id'        => self::extractId('pages', $_POST['page_uuid']),
+            'component_id'   => self::extractId('components', $_POST['component_uuid']),
         ];
         $pageComponent = new PageComponentModel();
         $res = $pageComponent->add($data);
@@ -88,7 +88,7 @@ class Page
     public static function listComponents()
     {
         $data = [
-            'page_id'        => $_POST['page_id'],
+            'page_id' => self::extractId('pages', $_POST['page_uuid']),
         ];
         $pageComponent = new PageComponentModel();
         $res = $pageComponent->list($data);
@@ -131,7 +131,7 @@ class Page
     {
         $data = [
             'component_ids'   => $_POST['component_ids'],
-            'page_id'         => $_POST['page_id'],
+            'page_id'         => self::extractId('pages', $_POST['page_uuid']),
         ];
         $pageComponent = new PageComponentModel();
         $res = $pageComponent->changeOrder($data);
@@ -146,5 +146,12 @@ class Page
                 'message' => 'Component Order failed to change'
             ];
         }
+    }
+
+    public static function extractId($tableName, $uuid)
+    {
+        $db = DatabaseHandler::inst();
+        $id = $db->extractId($tableName, $uuid);
+        return $id ? $id : null;
     }
 }
