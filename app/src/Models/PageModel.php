@@ -19,7 +19,7 @@ class PageModel
     public function add($pageData)
     {
         $pageData['created_at'] = $this->timeStamp;
-        $databaseHandler = new DatabaseHandler();
+        $databaseHandler = DatabaseHandler::inst();
         $result = $databaseHandler->insert($this->tableName, $pageData);
         return $result;
     }
@@ -27,7 +27,7 @@ class PageModel
     public function edit($pageData)
     {
         $whereClause = ['uuid' => $_REQUEST['uuid']];
-        $databaseHandler = new DatabaseHandler();
+        $databaseHandler = DatabaseHandler::inst();
         $result = $databaseHandler->select($this->tableName, $whereClause);
 
         if (!empty($result)) {

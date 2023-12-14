@@ -19,14 +19,14 @@ class ComponentModel
     public function add($pageData)
     {
         $pageData['created_at'] = $this->timeStamp;
-        $databaseHandler = new DatabaseHandler();
+        $databaseHandler = DatabaseHandler::inst();
         $result = $databaseHandler->insert($this->tableName, $pageData);
         return $result;
     }
 
     public function list()
     {
-        $databaseHandler = new DatabaseHandler();
+        $databaseHandler = DatabaseHandler::inst();
         $result = $databaseHandler->select($this->tableName);
         return $result;
     }

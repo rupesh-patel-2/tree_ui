@@ -18,7 +18,7 @@ class PageComponentModel
 
     public function add($pageComponentData)
     {
-        $databaseHandler = new DatabaseHandler();
+        $databaseHandler = DatabaseHandler::inst();
         # Sequence Number Logic - Starts Here
         if (!empty($pageComponentData['sequence_number'])) {
             $pageComponentData['sequence_number'] = $pageComponentData['sequence_number'];
@@ -36,7 +36,7 @@ class PageComponentModel
     public function edit($pageData)
     {
         $whereClause = ['uuid' => $_POST['uuid']];
-        $databaseHandler = new DatabaseHandler();
+        $databaseHandler = DatabaseHandler::inst();
         $result = $databaseHandler->select($this->tableName, $whereClause);
 
         if (!empty($result)) {
@@ -60,14 +60,14 @@ class PageComponentModel
     public function remove($data)
     {
         $whereClause = $data;
-        $databaseHandler = new DatabaseHandler();
+        $databaseHandler = DatabaseHandler::inst();
         $result = $databaseHandler->delete($this->tableName, $whereClause);
         return !empty($result) ? $result : false;
     }
 
     public function changeOrder($data)
     {
-        $databaseHandler = new DatabaseHandler();
+        $databaseHandler = DatabaseHandler::inst();
 
         $databaseHandler->beginTransaction();
 

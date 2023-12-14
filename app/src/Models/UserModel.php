@@ -18,7 +18,7 @@ class UserModel
 
     public function login($data)
     {
-        $databaseHandler = new DatabaseHandler();
+        $databaseHandler = DatabaseHandler::inst();
         $result = $databaseHandler->select($this->tableName, $data);
         return $result;
     }
