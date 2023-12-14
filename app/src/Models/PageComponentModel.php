@@ -52,7 +52,7 @@ class PageComponentModel
     {
         $whereClause = $data;
         $orderBy = '`sequence_number` ASC';
-        $databaseHandler = new DatabaseHandler();
+        $databaseHandler = DatabaseHandler::inst();
         $result = $databaseHandler->select($this->tableName, $whereClause, $orderBy);
         return !empty($result) ? $result : false;
     }
@@ -89,5 +89,25 @@ class PageComponentModel
             $databaseHandler->rollback();
             return false;
         }
+    }
+
+    public function components($page_id)
+    {
+        $components = [];
+
+        $whereClause = $page_id;
+
+        $orderBy = 'page_components.sequence_number ASC';
+
+        $joins = [
+            "LEFT JOIN components ON page_components.component_id = components.id",
+        ];
+
+        $columns = 'components.name,components.description';
+
+        $databaseHandler = DatabaseHandler::inst();
+        $components = $databaseHandler->select($this->tableName, $whereClause, $orderBy, $joins, $columns);
+
+        return $components;
     }
 }

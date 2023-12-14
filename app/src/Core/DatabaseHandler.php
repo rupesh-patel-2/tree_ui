@@ -63,11 +63,14 @@ class DatabaseHandler
         }
 
         if (!empty($conditions)) {
-            // var_dump($conditions); die;
             $whereClause = array();
             foreach ($conditions as $column => $value) {
-                $value = mysqli_real_escape_string($this->connection, $value);
-                $whereClause[] = "$column = '$value'";
+                if ($value === null) {
+                    $whereClause[] = "$column IS NULL";
+                } else {
+                    $value = mysqli_real_escape_string($this->connection, $value);
+                    $whereClause[] = "$column = '$value'";
+                }
             }
             $query .= " WHERE " . implode(" AND ", $whereClause);
         }
