@@ -75,8 +75,26 @@ class Thread {
         return $rObj;
     }
 
+    public function getLatestCompletedRun(){
+        $run = false;
+        $db = DatabaseHandler::inst();
+        $dbInst = $db->select('runs', [
+            ['thread_id' ,'=', $this->uuid] ,
+            ['status' ,'=','completed']
+        ] , 'runs.id DESC');
+        if(!empty($dbInst)){
+            $run = new Run([
+                'assistant_id' => $dbInst[0]['assistant_id'],
+                'thread_id' => $dbInst[0]['thread_id']
+            ]);
+            $run->status = $dbInst[0]['status'];
+            $run->id = $dbInst[0]['id'];
+        }
+        return $run;
+    }
+
     public function getMessages() {
-        $response = Http::get('threads/'.$this->thread_id.'/messages',self::getExtraHeaers());
+        $response = Http::get('threads/'.$this->uuid.'/messages',self::getExtraHeaers());
         var_dump($response);
     }
 }

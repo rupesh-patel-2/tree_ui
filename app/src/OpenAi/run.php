@@ -16,9 +16,12 @@ $messageData =  [
     'content' => 'I am a dentist and I want to create a website where I can show all my services.'
 ];
 
-// $mesasage = $thread->pushMessage($messageData);
+ $mesasage = $thread->pushMessage($messageData);
+$run = $thread->getLatestCompletedRun();
+if(!$run) {
+    $run = $thread->createRun($assistant->uuid);
+}
 
-$run = $thread->createRun($assistant->uuid);
 if($run->status != 'completed'){
     echo "going to sync ";
     $run->sync();
