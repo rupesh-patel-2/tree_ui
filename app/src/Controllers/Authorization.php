@@ -26,11 +26,11 @@ class Authorization
                 'email'        => $userData['email'],
             ];
             $user = $_SESSION['LoggedInUser'];
+
             $user['access_token'] = session_id() . '090##934' . time();
 
             return [
                 'code' => 200,
-                'success' => true,
                 'user' => $user,
                 'message' => 'User Login Success'
             ];

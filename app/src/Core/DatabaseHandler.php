@@ -44,9 +44,15 @@ class DatabaseHandler
         }
     }
 
-    public function select($table, $conditions = [], $orderBy = '')
+    public function select($table, $conditions = [], $orderBy = '', $joins = [], $columns = '*')
     {
-        $query = "SELECT * FROM " . $table;
+        $query = "SELECT " . ($columns ? $columns : '*') . " FROM " . $table;
+
+        if (!empty($joins)) {
+            foreach ($joins as $join) {
+                $query .= " " . $join;
+            }
+        }
 
         if (!empty($conditions)) {
             $whereClause = array();
@@ -60,6 +66,8 @@ class DatabaseHandler
         if (!empty($orderBy)) {
             $query .= " ORDER BY " . $orderBy;
         }
+
+        // echo $query; die;
 
         $result = mysqli_query($this->connection, $query);
 
