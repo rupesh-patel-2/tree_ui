@@ -10,16 +10,24 @@ class Sitemap
     public static function index()
     {
         $data = [
-            'user_id' => $_SESSION['LoggedInUser']['id']
+            'user_id' => $_SESSION['LoggedInUser']['id'],
+            'uuid'    => $_POST['site_uuid'],
         ];
 
         $siteMap = new SiteModel();
-        $res = $siteMap->loadMap($data);
+        $res = $siteMap->loadSiteMap($data);
+        if ($res) {
+            return [
+                'code'    => 200,
+                'message' => 'Site Map JSON',
+                'data'    => $res
+            ];
+        } else {
+            return [
+                'code'    => 400,
+                'message' => 'Failed to load site map',
+            ];
+        }
 
-        return [
-            'code'    => 200,
-            'message' => 'Site Map JSON',
-            'data'    => $res
-        ];
     }
 }

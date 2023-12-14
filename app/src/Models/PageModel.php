@@ -38,4 +38,35 @@ class PageModel
             return false;
         }
     }
+
+    public function loadRootPage($site_id)
+    {
+        $whereClause = [
+            'site_id' => $site_id,
+            'parent_page_id' => null
+        ];
+
+        $rootPage = false;
+
+        // write query to load root page
+        $databaseHandler = DatabaseHandler::inst();
+        $result = $databaseHandler->select($this->tableName, $whereClause);
+        var_dump($result);
+        die;
+
+        if ($rootPage) {
+            $rootPage['children'] = self::loadChildren($rootPage['uuid']);
+        }
+        return $rootPage;
+    }
+
+    public static function loadChildren($uuid)
+    {
+        $children = []; // write query to load all the children of uuid
+        foreach ($children as $key => $child) {
+            $children[$key]['children'] = self::loadChildren($child['uuid']);
+        }
+
+        return $children;
+    }
 }

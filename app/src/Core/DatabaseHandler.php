@@ -11,6 +11,15 @@ class DatabaseHandler
     private $password;
     private $dbname;
 
+    protected static $inst = false;
+
+    public static function inst(){
+        if(!self::$inst){
+            self::$inst = new self();
+        }
+        return self::$inst;
+    }
+
     public function __construct()
     {
         $config = require_once __DIR__ . '/Config/Database.php';
@@ -18,10 +27,9 @@ class DatabaseHandler
         $this->username = $config['username'];
         $this->password = $config['password'];
         $this->dbname = $config['dbname'];
-
+        
         $this->connection = mysqli_connect($this->servername, $this->username, $this->password, $this->dbname);
-
-
+        
         if (!$this->connection) {
             die("Connection failed: " . mysqli_connect_error());
         }
@@ -55,6 +63,7 @@ class DatabaseHandler
         }
 
         if (!empty($conditions)) {
+            // var_dump($conditions); die;
             $whereClause = array();
             foreach ($conditions as $column => $value) {
                 $value = mysqli_real_escape_string($this->connection, $value);
@@ -66,9 +75,7 @@ class DatabaseHandler
         if (!empty($orderBy)) {
             $query .= " ORDER BY " . $orderBy;
         }
-
         // echo $query; die;
-
         $result = mysqli_query($this->connection, $query);
 
         if (!$result) {
