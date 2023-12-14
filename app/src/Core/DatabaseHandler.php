@@ -10,6 +10,7 @@ class DatabaseHandler
     private $username;
     private $password;
     private $dbname;
+    private $port;
 
     protected static $inst = false;
 
@@ -27,8 +28,9 @@ class DatabaseHandler
         $this->username = $config['username'];
         $this->password = $config['password'];
         $this->dbname = $config['dbname'];
-        
-        $this->connection = mysqli_connect($this->servername, $this->username, $this->password, $this->dbname);
+        $this->port = $config['port'];
+
+        $this->connection = mysqli_connect($this->servername, $this->username, $this->password, $this->dbname, $this->port);
         
         if (!$this->connection) {
             die("Connection failed: " . mysqli_connect_error());
