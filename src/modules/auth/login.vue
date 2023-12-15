@@ -89,12 +89,6 @@ let username: string = ''
 let password: string = ''
 let msg: string = ''
 
-const form = ref(null);
-
-function getAction() {
-    return import.meta.env.VITE_API_URL + "/login.php";
-}
-
 const ajaxObj = new (ajax as any)();
 
 const initiate = () => {
