@@ -26,7 +26,7 @@ class PageModel
 
     public function edit($pageData)
     {
-        $whereClause = ['uuid' => $_REQUEST['uuid']];
+        $whereClause = ['uuid' => $_POST['uuid']];
         $databaseHandler = DatabaseHandler::inst();
         $result = $databaseHandler->select($this->tableName, $whereClause);
 
