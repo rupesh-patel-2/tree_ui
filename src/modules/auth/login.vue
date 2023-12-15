@@ -13,7 +13,7 @@
 
                         <template #fields="{ refs }">
                             <h1 class="text-2xl font-bold text-red-500">{{ validationErr }}</h1>
-                            <TextField name="email" label="Email" :is_valid="emailValidation"
+                            <TextField name="username" label="Username" :is_valid="emailValidation"
                                 :ref="(ele: any) => { refs.push(ele) }"></TextField>
                             <TextField name="password" type="password" label="Password" :is_valid="passwordValidation"
                                 :error_message="passwordErrorMessage" :required="true"
@@ -62,9 +62,9 @@ const userStoreObj = userStore();
 const router = useRouter()
 const emailValidation = (value: string) => {
     const expression: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-    email = value
+    username = value
     validationErr.value = '';
-    const result: boolean = expression.test(email)
+    const result: boolean = expression.test(username)
     if (result) {
         return true;
     }
@@ -85,7 +85,7 @@ const passwordValidation = (value: string) => {
     return v;
 }
 
-let email: string = ''
+let username: string = ''
 let password: string = ''
 let msg: string = ''
 
@@ -109,7 +109,7 @@ const initiate = () => {
 
 const login = async () => {
     let details = {
-        'email': email,
+        'username': username,
         'password': password
     };
 
@@ -120,7 +120,7 @@ const login = async () => {
         let userObj: user = {
             firstName: data.user.first_name,
             lastName: data.user.last_name,
-            email: data.user.email,
+            email: data.user.username,
             authToken: data.user.access_token
         }
         userStoreObj.setUser(userObj);
