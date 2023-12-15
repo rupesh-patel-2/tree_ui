@@ -31,8 +31,8 @@ class Authorization
 
             return [
                 'code' => 200,
+                'message' => 'User Login Success',
                 'user' => $user,
-                'message' => 'User Login Success'
             ];
         } else {
             return [
