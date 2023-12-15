@@ -12,7 +12,7 @@ class UserModel
 
     public function __construct()
     {
-        $this->tableName = 'users';
+        $this->tableName = 'account_user';
         $this->timeStamp = date("Y-m-d H:i:s");
     }
 

@@ -71,8 +71,8 @@ class DatabaseHandler
                 if ($value === null) {
                     $whereClause[] = "$column IS NULL";
                 } else {
-                    $value = mysqli_real_escape_string($this->connection, $value);
-                    $whereClause[] = "$column = '$value'";
+                    $value = is_numeric($value) ? $value : "'" . mysqli_real_escape_string($this->connection, $value) . "'";
+                    $whereClause[] = "$column = $value";
                 }
             }
             $query .= " WHERE " . implode(" AND ", $whereClause);
