@@ -93,8 +93,58 @@ class Thread {
         return $run;
     }
 
+    public function getLatestRun(){
+        $run = false;
+        $db = DatabaseHandler::inst();
+        $dbInst = $db->select('runs', [
+            ['thread_id' ,'=', $this->uuid] 
+        ] , 'runs.id DESC');
+        if(!empty($dbInst)){
+            $run = new Run([
+                'assistant_id' => $dbInst[0]['assistant_id'],
+                'thread_id' => $dbInst[0]['thread_id']
+            ]);
+            $run->uuid = $dbInst[0]['uuid'];
+            $run->status = $dbInst[0]['status'];
+            $run->id = $dbInst[0]['id'];
+        }
+        return $run;
+    }
+
     public function getMessages() {
         $response = Http::get('threads/'.$this->uuid.'/messages',self::getExtraHeaers());
-        var_dump($response);
+        if(isset($response['data'])){
+            foreach($response['data'] as $message){
+                Message::storeMessage($message);
+            }
+        }
+    }
+
+    public function extractJsonFromString($text) {
+        // Find the position of "json" in the text
+        $startPos = strpos($text, 'json');
+    
+        if ($startPos !== false) {
+            // Extract the substring starting from "json"
+            $jsonText = substr($text, $startPos + 4);
+    
+            // Remove unnecessary characters at the beginning of the JSON string
+            $cleanedText = preg_replace('/^\s*\\\n/', '', $jsonText);
+    
+            // Decode the escaped characters in the cleaned text
+            $decodedText = stripcslashes($cleanedText);
+    
+            // Decode the JSON string
+            $json = json_decode($decodedText, true);
+    
+            // Check if the decoding was successful
+            if (json_last_error() === JSON_ERROR_NONE) {
+                return json_encode($json, JSON_PRETTY_PRINT);
+            } else {
+                throw new Exception('Invalid JSON format: ' . json_last_error_msg());
+            }
+        } else {
+            throw new Exception('JSON not found in the provided text.');
+        }
     }
 }

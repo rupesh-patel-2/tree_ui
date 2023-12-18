@@ -1,0 +1,337 @@
+[
+    {
+        "name" : "Navigation Menu",
+        "uuid" : "nav_menu_1",
+        "description" : "Displays a navigation menu, suitable to be placed in the header."
+    },
+    {
+        "name" : "Hero Header",
+        "uuid" : "hero_header_1",
+        "description" : "Containing a sliding hero section where you can display 5 hero images highlighting the purpose of the site."
+    },
+    {
+        "name" : "Image Gallery",
+        "uuid" : "image_gallery_1",
+        "description" : "Containing a maximum of 10 images."
+    },
+    {
+        "name" : "List",
+        "uuid" : "list_1",
+        "description" : "List items with images, header text, and short descriptions."
+    },
+    {
+        "name" : "Contact Form",
+        "uuid" : "contact_form_1",
+        "description" : "A form for users to submit inquiries or messages."
+    },
+    {
+        "name" : "Footer",
+        "uuid" : "footer_1",
+        "description" : "The bottom section of the website containing copyright information, links, and other details."
+    },
+    {
+        "name" : "Testimonials",
+        "uuid" : "testimonials_1",
+        "description" : "A section displaying customer testimonials with images and comments."
+    },
+    {
+        "name" : "Search Bar",
+        "uuid" : "search_bar_1",
+        "description" : "A field that allows users to search for content within the website."
+    },
+    {
+        "name" : "Slider",
+        "uuid" : "slider_1",
+        "description" : "A dynamic component for showcasing multiple pieces of content, such as images or promotions."
+    },
+    {
+        "name" : "Video Player",
+        "uuid" : "video_player_1",
+        "description" : "An embedded player for playing videos on the website."
+    },
+    {
+        "name" : "Call to Action (CTA) Button",
+        "uuid" : "cta_button_1",
+        "description" : "A button designed to encourage users to take a specific action, such as making a purchase or signing up."
+    },
+    {
+        "name" : "Countdown Timer",
+        "uuid" : "countdown_timer_1",
+        "description" : "A timer that counts down to a specific date or event, creating a sense of urgency."
+    },
+    {
+        "name" : "Social Media Icons",
+        "uuid" : "social_media_icons_1",
+        "description" : "Icons linking to the website's social media profiles for easy sharing and engagement."
+    },
+    {
+        "name" : "FAQ Section",
+        "uuid" : "faq_section_1",
+        "description" : "Frequently Asked Questions with answers to common queries."
+    },
+    {
+        "name" : "Blog Post List",
+        "uuid" : "blog_post_list_1",
+        "description" : "A section displaying a list of blog posts with titles, images, and summaries."
+    },
+    {
+        "name" : "Login Form",
+        "uuid" : "login_form_1",
+        "description" : "A form for users to log in to their accounts."
+    },
+    {
+        "name" : "Subscription Box",
+        "uuid" : "subscription_box_1",
+        "description" : "A box allowing users to subscribe to newsletters or updates."
+    },
+    {
+        "name" : "Progress Bar",
+        "uuid" : "progress_bar_1",
+        "description" : "A visual representation of the progress of a task or process."
+    },
+    {
+        "name" : "Interactive Map",
+        "uuid" : "interactive_map_1",
+        "description" : "A map that users can interact with, displaying locations or relevant information."
+    },
+    {
+        "name" : "Accordion",
+        "uuid" : "accordion_1",
+        "description" : "A collapsible content section that allows users to expand or collapse information as needed."
+    },
+    {
+        "name" : "Product Carousel",
+        "uuid" : "product_carousel_1",
+        "description" : "A carousel displaying a selection of products with images and brief descriptions."
+    },
+    {
+        "name" : "Rating and Reviews",
+        "uuid" : "rating_reviews_1",
+        "description" : "User-generated ratings and reviews for products or services."
+    },
+    {
+        "name" : "Progressive Web App (PWA) Features",
+        "uuid" : "pwa_features_1",
+        "description" : "Incorporating PWA features for enhanced user experience, such as offline functionality and push notifications."
+    },
+    {
+        "name" : "Notification Bar",
+        "uuid" : "notification_bar_1",
+        "description" : "A bar displaying important notifications or alerts to users."
+    },
+    {
+        "name" : "Data Tables",
+        "uuid" : "data_tables_1",
+        "description" : "Tables displaying organized data with sorting and filtering options."
+    },
+    {
+        "name" : "Mega Menu",
+        "uuid" : "mega_menu_1",
+        "description" : "An expanded menu with multiple levels and rich content."
+    },
+    {
+        "name" : "Animated Icons",
+        "uuid" : "animated_icons_1",
+        "description" : "Icons with animated effects to enhance visual appeal."
+    },
+    {
+        "name" : "Progressive Loading",
+        "uuid" : "progressive_loading_1",
+        "description" : "A technique for loading content progressively as the user scrolls, improving page load times."
+    },
+    {
+        "name" : "Error 404 Page",
+        "uuid" : "error_404_page_1",
+        "description" : "A custom page displayed when users encounter a 404 error, providing helpful navigation or suggestions."
+    },
+    {
+        "name" : "Contact Information",
+        "uuid" : "contact_information_1",
+        "description" : "Clear display of contact details, including address, phone number, and email."
+    },
+    {
+        "name" : "Polls and Surveys",
+        "uuid" : "polls_surveys_1",
+        "description" : "Interactive polls or surveys to gather user feedback."
+    },
+    {
+        "name" : "Event Calendar",
+        "uuid" : "event_calendar_1",
+        "description" : "A calendar displaying upcoming events with details and registration options."
+    },
+    {
+        "name" : "Animated Background",
+        "uuid" : "animated_background_1",
+        "description" : "A visually appealing animated background for specific sections of the website."
+    },
+    {
+        "name" : "Tabbed Content",
+        "uuid" : "tabbed_content_1",
+        "description" : "Content organized into tabs for easy navigation and presentation."
+    },
+    {
+        "name" : "Lead Capture Form",
+        "uuid" : "lead_capture_form_1",
+        "description" : "A form designed to capture visitor information for lead generation purposes."
+    },
+    {
+        "name" : "Special Offers Banner",
+        "uuid" : "special_offers_banner_1",
+        "description" : "A banner highlighting special offers or promotions with a call to action."
+    },
+    {
+        "name" : "Customer Success Stories",
+        "uuid" : "customer_success_stories_1",
+        "description" : "Showcasing success stories or case studies of satisfied customers."
+    },
+    {
+        "name" : "Interactive Infographic",
+        "uuid" : "interactive_infographic_1",
+        "description" : "An engaging and interactive infographic presenting key information visually."
+    },
+    {
+        "name" : "Dynamic Pricing Table",
+        "uuid" : "dynamic_pricing_table_1",
+        "description" : "A pricing table that dynamically updates based on user selections or customization options."
+    },
+    {
+        "name" : "Live Chat Support",
+        "uuid" : "live_chat_support_1",
+        "description" : "A live chat feature for real-time customer support and assistance."
+    },
+    {
+        "name" : "Comparison Table",
+        "uuid" : "comparison_table_1",
+        "description" : "A table comparing different product or service features to aid decision-making."
+    },
+    {
+        "name" : "Newsletter Signup Popup",
+        "uuid" : "newsletter_signup_popup_1",
+        "description" : "A popup encouraging visitors to subscribe to the newsletter for updates and offers."
+    },
+    {
+        "name" : "Interactive Quiz",
+        "uuid" : "interactive_quiz_1",
+        "description" : "An interactive quiz to engage visitors and gather insights about their preferences."
+    },
+    {
+        "name" : "Product Showcase Gallery",
+        "uuid" : "product_showcase_gallery_1",
+        "description" : "A gallery featuring a visually appealing display of key products or services."
+    },
+    {
+        "name" : "Downloadable Resources Section",
+        "uuid" : "downloadable_resources_section_1",
+        "description" : "A section providing downloadable resources such as whitepapers, guides, or brochures."
+    },
+    {
+        "name" : "Social Proof Widget",
+        "uuid" : "social_proof_widget_1",
+        "description" : "A widget displaying social proof elements, such as recent purchases or testimonials."
+    },
+    {
+        "name" : "Brand Partnerships Section",
+        "uuid" : "brand_partnerships_section_1",
+        "description" : "Highlighting partnerships with other brands or organizations for credibility."
+    },
+    {
+        "name" : "Interactive Product Demo",
+        "uuid" : "interactive_product_demo_1",
+        "description" : "An interactive demonstration of a product's features and functionalities."
+    },
+    {
+        "name" : "Upsell Section",
+        "uuid" : "upsell_section_1",
+        "description" : "A section suggesting complementary products or upgrades to encourage additional purchases."
+    },
+    {
+        "name" : "Loyalty Program Information",
+        "uuid" : "loyalty_program_information_1",
+        "description" : "Details about a customer loyalty program, including rewards and benefits."
+    },
+    {
+        "name" : "Interactive User Reviews",
+        "uuid" : "interactive_user_reviews_1",
+        "description" : "User reviews presented in an interactive format, allowing sorting and filtering."
+    },
+    {
+        "name" : "Product Availability Checker",
+        "uuid" : "product_availability_checker_1",
+        "description" : "A tool for users to check the availability of products in their location."
+    },
+    {
+        "name" : "Dynamic Call to Action (CTA)",
+        "uuid" : "dynamic_cta_1",
+        "description" : "A CTA that dynamically changes based on user behavior or preferences."
+    },
+    {
+        "name" : "Interactive Tour",
+        "uuid" : "interactive_tour_1",
+        "description" : "An interactive tour guiding users through key features or offerings."
+    },
+    {
+        "name" : "Limited-Time Offer Countdown",
+        "uuid" : "limited_time_offer_countdown_1",
+        "description" : "A countdown timer for a limited-time promotional offer."
+    },
+    {
+        "name" : "User-generated Content Feed",
+        "uuid" : "user_generated_content_feed_1",
+        "description" : "A feed displaying content generated by users, such as photos or testimonials."
+    },
+    {
+        "name" : "Customization Tool",
+        "uuid" : "customization_tool_1",
+        "description" : "A tool allowing users to customize products or services before making a purchase."
+    },
+    {
+        "name" : "Interactive Price Calculator",
+        "uuid" : "interactive_price_calculator_1",
+        "description" : "A calculator that dynamically calculates the price based on user inputs and selections."
+    },
+    {
+        "name" : "Mobile App Download Section",
+        "uuid" : "mobile_app_download_section_1",
+        "description" : "Section promoting the download of the company's mobile app with app store links."
+    },
+    {
+        "name" : "Virtual Event Platform Integration",
+        "uuid" : "virtual_event_platform_integration_1",
+        "description" : "Integration with a virtual event platform for hosting online events and webinars."
+    },
+    {
+        "name" : "Product Warranty Information",
+        "uuid" : "product_warranty_information_1",
+        "description" : "Details about product warranties, terms, and conditions."
+    },
+    {
+        "name" : "Interactive 360-Degree Product View",
+        "uuid" : "interactive_360_degree_product_view_1",
+        "description" : "An interactive view allowing users to explore products from all angles."
+    },
+    {
+        "name" : "Customer Feedback Form",
+        "uuid" : "customer_feedback_form_1",
+        "description" : "A form for collecting feedback from customers to improve products or services."
+    },
+    {
+        "name" : "Promotional Video Section",
+        "uuid" : "promotional_video_section_1",
+        "description" : "A section featuring a promotional video highlighting key aspects of the business."
+    },
+    {
+        "name" : "Interactive Social Media Feed",
+        "uuid" : "interactive_social_media_feed_1",
+        "description" : "An embedded feed displaying the latest posts from the company's social media accounts."
+    },
+    {
+        "name" : "Product Highlight Carousel",
+        "uuid" : "product_highlight_carousel_1",
+        "description" : "A carousel showcasing highlighted products with key features and benefits."
+    },
+    {
+        "name" : "Interactive Financial Calculator",
+        "uuid" : "interactive_financial_calculator_1",
+        "description" : "A calculator helping users estimate financial aspects, such as savings or ROI."
+    }
+]

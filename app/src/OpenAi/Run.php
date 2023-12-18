@@ -78,6 +78,7 @@ class Run {
     }
 
     public function sync(){
+        
         $response = Http::get('threads/'.$this->thread_id.'/runs/'.$this->uuid,self::getExtraHeaers());
         $this->status = $response['status'];
         $this->save();

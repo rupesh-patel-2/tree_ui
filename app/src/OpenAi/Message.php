@@ -10,6 +10,9 @@ class Message {
     protected $thread_id;
     protected $uuid;
     protected $run_id;
+    protected $created_at = false;
+    protected $id;
+    public $extracted_json='{}';
 
     public function __construct($message) {
         $this->role = $message['role'];
@@ -22,9 +25,11 @@ class Message {
         $data = [
             'uuid' => $this->uuid,
             'role' => $this->role,
-            'content' => $this->content,
+            'content' => is_array($this->content) ? json_encode($this->content) : $this->content,
             'thread_id' => $this->thread_id,
             'file_ids' => $encoded ?  json_encode($this->file_ids) : $this->file_ids,
+            'created_at' => $this->created_at ? $this->created_at : date('Y-m-d H:i:s'),
+            'extracted_json' => $this->extracted_json
         ];
         return $data;
     }
@@ -32,7 +37,50 @@ class Message {
     public function save(){
         $db = DatabaseHandler::inst();
         $data = $this->getPropertiesAsArray();
-        $db->insert('messages',$data);
+        var_dump($data);
+        if($this->id) {
+            $db->update('messages',$data,['runs.id' => $this->id]);
+        } else {
+            $db->insert('messages',$data);
+        }
+    }
+
+    public static function storeMessage($msg) {
+        $db = DatabaseHandler::inst();
+        $msgDb = $db->select('messages',['uuid' => $msg['id']]);
+        if(empty($msgDb)){
+            $msgObj = new self($msg);
+            $msgObj->uuid = $msg['id'];
+            $msgObj->created_at = date('Y-m-d H:i:s',$msg['created_at']);
+            $msgObj->extractJsonFromString();
+            $msgObj->save();
+        }
+    }
+
+    public function extractJsonFromString() {
+        // Find the position of "json" in the text
+        $text = $this->content;
+        $text = is_array($text) ? $text[0]['text']['value'] : $this->content;
+        $startPos = strpos($text, 'json');
+    
+        if ($startPos !== false) {
+            // Extract the substring starting from "json"
+            $jsonText = substr($text, $startPos + 4);
+    
+            // Remove unnecessary characters at the beginning of the JSON string
+            $cleanedText = preg_replace('/^\s*\\\n/', '', $jsonText);
+    
+            // Decode the escaped characters in the cleaned text
+            $decodedText = stripcslashes($cleanedText);
+    
+            // Decode the JSON string
+            $json = json_decode($decodedText, true);
+    
+            // Check if the decoding was successful
+            if (json_last_error() === JSON_ERROR_NONE) {
+                $this->extracted_json =  json_encode($json);
+            } 
+        } 
     }
 
     public function createOnOpenAi(){
@@ -41,6 +89,8 @@ class Message {
         unset($data['uuid']);
         unset($data['thread_id']);
         unset($data['run_id']);
+        unset($data['created_at']);
+        unset($data['extracted_json']);
         $response = Http::post('threads/'.$this->thread_id.'/messages',$data,self::getExtraHeaers());
         if(!empty($response['id'])){
             $this->uuid = $response['id'];
