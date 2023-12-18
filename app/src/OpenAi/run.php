@@ -27,8 +27,8 @@ $messageData =  [
     'file_ids' => [ $file->uuid]
 ];
 
-//$mesasage = $thread->pushMessage($messageData);
-//$run = $thread->createRun($assistant->uuid);
+// $mesasage = $thread->pushMessage($messageData);
+// $run = $thread->createRun($assistant->uuid);
 $run = $thread->getLatestRun();
 if(!$run) {
     $run = $thread->createRun($assistant->uuid);
