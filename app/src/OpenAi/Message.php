@@ -142,12 +142,12 @@ class Message
             $jsonString = str_replace("\n", '', $matches[1]);
 
             $jsonData = json_decode($jsonString, true);
-            $prettyJson = json_encode($jsonData);
+            $extractedJson = json_encode($jsonData);
         } else {
-            $prettyJson = "{}";
+            $extractedJson = "{}";
         }
         $db = DatabaseHandler::inst();
-        $result =  $db->update('messages', ['extracted_json' => $prettyJson], ['id' => $this->id]);
+        $result =  $db->update('messages', ['extracted_json' => $extractedJson], ['id' => $this->id]);
         return $result;
     }
 }
