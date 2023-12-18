@@ -68,13 +68,23 @@ class DatabaseHandler
         if (!empty($conditions)) {
             $whereClause = array();
             foreach ($conditions as $key => $condition) {
-                $operator = '='; $column = $key; $value = $condition;
-                if(is_array($condition)){
-                    $column = $condition[0]; $operator = $condition[1]; $value = $condition[2];
-                }
-                $value = mysqli_real_escape_string($this->connection, $value);
+                $operator = '=';
+                $column = $key;
+                $value = $condition;
+                if (is_array($condition)) {
+                    $column = $condition[0];
+                    $operator = $condition[1];
+                    $value = $condition[2];
+                    $value = mysqli_real_escape_string($this->connection, $value);
                     $whereClause[] = "$column $operator '$value'";
-                
+                } else {
+                    if ($condition === null) {
+                        $whereClause[] = "$key IS NULL";
+                    } else {
+                        $condition = is_numeric($condition) ? $condition : "'" . mysqli_real_escape_string($this->connection, $condition) . "'";
+                        $whereClause[] = "$key = $condition";
+                    }
+                }
             }
             $query .= " WHERE " . implode(" AND ", $whereClause);
         }
@@ -83,7 +93,7 @@ class DatabaseHandler
             $query .= " ORDER BY " . $orderBy;
         }
         // echo $query; die;
-       
+
         $result = mysqli_query($this->connection, $query);
 
         if (!$result) {
@@ -117,7 +127,6 @@ class DatabaseHandler
             }
             $query .= " WHERE " . implode(" AND ", $whereClause);
         }
-        
         $result = mysqli_query($this->connection, $query);
 
         if (!$result) {
