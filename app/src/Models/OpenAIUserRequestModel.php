@@ -4,7 +4,7 @@ namespace Models;
 
 use Core\DatabaseHandler;
 
-class AIRequestModel
+class OpenAIUserRequestModel
 {
     public $tableName;
 

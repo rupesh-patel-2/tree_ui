@@ -2,10 +2,10 @@
 
 namespace Controllers;
 
-use Models\AIRequestModel;
+use Models\OpenAIUserRequestModel;
 
 require_once(__DIR__ . '/../Core/Config/CheckLogin.php');
-class AIRequests
+class OpenAIUserRequest
 {
     public static function add()
     {
@@ -16,10 +16,10 @@ class AIRequests
             'user_id'     => $_SESSION['LoggedInUser']['id'],
             'status'      => 'in_progress',
         ];
-        $request = new AIRequestModel();
+        $request = new OpenAIUserRequestModel();
         $res = $request->add($data);
         if ($res) {
-            $command = "php " . __DIR__ . "/../OpenAi/UpdateRequestStatus.php $res > /dev/null 2>&1 &";
+            $command = "php " . __DIR__ . "/../OpenAi/UpdateUserRequestStatus.php $res > /dev/null 2>&1 &";
             exec($command);
 
             return [
