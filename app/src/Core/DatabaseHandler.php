@@ -5,7 +5,7 @@ namespace Core;
 class DatabaseHandler
 {
 
-    private $connection;
+    public $connection;
     private $servername;
     private $username;
     private $password;
@@ -92,7 +92,6 @@ class DatabaseHandler
         if (!empty($orderBy)) {
             $query .= " ORDER BY " . $orderBy;
         }
-        // echo $query; die;
 
         $result = mysqli_query($this->connection, $query);
 
