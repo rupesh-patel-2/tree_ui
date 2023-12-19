@@ -24,6 +24,7 @@ class Authorization
             if ($isPasswordExists) {
                 $_SESSION['LoggedInUser'] = [
                     'id'           => $userData['uid'],
+                    'uuid'         => $userData['uuid'],
                     'first_name'   => $userData['first_name'],
                     'last_name'    => $userData['last_name'],
                     'email'        => $userData['username'],

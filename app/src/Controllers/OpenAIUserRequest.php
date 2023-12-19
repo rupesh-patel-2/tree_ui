@@ -12,8 +12,8 @@ class OpenAIUserRequest
         $data = [
             'type'        => $_POST['type'],
             'prompt'      => $_POST['prompt'],
-            'site_id'     => $_POST['site_id'],
-            'user_id'     => $_SESSION['LoggedInUser']['id'],
+            'site_uuid'   => $_POST['site_uuid'],
+            'user_uuid'   => $_SESSION['LoggedInUser']['uuid'],
             'status'      => 'in_progress',
         ];
         $request = new OpenAIUserRequestModel();
