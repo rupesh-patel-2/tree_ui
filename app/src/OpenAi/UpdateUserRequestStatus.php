@@ -20,7 +20,7 @@ $request_id = $argv[1];
 $db = DatabaseHandler::inst();
 
 // fetch the request details using id.
-$result = $db->select('openai_user_requests', ['id' => $request_id]);
+$result = $db->select('openai_user_requests', ['id' => $request_id, 'status' => 'in_progress']);
 $result = array_shift($result);
 
 Manager::configure();
@@ -42,8 +42,36 @@ $messageData =  [
     'file_ids' => [$file->uuid]
 ];
 
+function checkRun($thread, $assistant)
+{
+    global $request_id;
 
-sleep(10);
+    $db = DatabaseHandler::inst();
 
-$db->update('openai_user_requests', ['status' => 'completed', 'updated_at' => date("Y-m-d H:i:s")], ['id' => $request_id]);
+    $maxAttempts = 10;
+    $attempts = 0;
+
+    do {
+        $run = $thread->getLatestRun();
+
+        if (!$run) {
+            $run = $thread->createRun($assistant->uuid);
+        }
+
+        if ($run->status != 'completed') {
+            echo "Going to sync\n";
+            $run->sync();
+            $attempts++;
+            sleep(5); // Sleep for 5 seconds
+        } else {
+            echo "Getting messages from thread\n";
+            $asad =  $thread->getMessages();
+            $db->update('openai_user_requests', ['status' => 'completed', 'updated_at' => date("Y-m-d H:i:s"), 'ai_response_json' => $asad['data'][0]['content'][0]['text']['value']], ['id' => $request_id]);
+            return;
+        }
+    } while ($attempts < $maxAttempts);
+    $db->update('openai_user_requests', ['status' => 'failed', 'updated_at' => date("Y-m-d H:i:s")], ['id' => $request_id]);
+}
+
+checkRun($thread, $assistant);
 return;

@@ -47,7 +47,6 @@ class Message
     {
         $db = DatabaseHandler::inst();
         $data = $this->getPropertiesAsArray();
-        var_dump($data);
         if ($this->id) {
             $db->update('messages', $data, ['runs.id' => $this->id]);
         } else {
@@ -70,28 +69,20 @@ class Message
 
     public function extractJsonFromString()
     {
-        // Find the position of "json" in the text
         $text = $this->content;
         $text = is_array($text) ? $text[0]['text']['value'] : $this->content;
         $startPos = strpos($text, 'json');
 
         if ($startPos !== false) {
-            // Extract the substring starting from "json"
-            $jsonText = substr($text, $startPos + 4);
-
-            // Remove unnecessary characters at the beginning of the JSON string
-            $cleanedText = preg_replace('/^\s*\\\n/', '', $jsonText);
-
-            // Decode the escaped characters in the cleaned text
-            $decodedText = stripcslashes($cleanedText);
-
-            // Decode the JSON string
-            $json = json_decode($decodedText, true);
-
-            // Check if the decoding was successful
-            if (json_last_error() === JSON_ERROR_NONE) {
-                $this->extracted_json =  json_encode($json);
+            preg_match('/```json(.*?)```/s', $text, $cleanedText);
+            if (isset($cleanedText[1])) {
+                $jsonString = str_replace("\n", '', $cleanedText[1]);
+                $jsonData = json_decode($jsonString, true);
+                $extractedJson = json_encode($jsonData);
+            } else {
+                $extractedJson = null;
             }
+            $this->extracted_json = $extractedJson;
         }
     }
 

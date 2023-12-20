@@ -139,6 +139,7 @@ class Thread
                 Message::storeMessage($message);
             }
         }
+        return $response;
     }
 
     public function extractJsonFromString($text)
