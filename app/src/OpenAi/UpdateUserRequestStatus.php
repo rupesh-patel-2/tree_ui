@@ -45,9 +45,9 @@ $messageData =  [
 
 function checkRun($thread, $assistant)
 {
-    global $request_id;
+    global $request_id, $db;
 
-    $db = DatabaseHandler::inst();
+    // $db = DatabaseHandler::inst();
 
     $maxAttempts = 10;
     $attempts = 0;
