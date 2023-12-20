@@ -6,6 +6,7 @@ require_once __DIR__ . "/../../autoloader.php";
 use Core\DatabaseHandler;
 use OpenAi\Assistants\SiteGenerator;
 use OpenAi\Files\File;
+use OpenAi\Http;
 use OpenAi\Manager;
 use OpenAi\Thread;
 
@@ -65,8 +66,17 @@ function checkRun($thread, $assistant)
             sleep(5); // Sleep for 5 seconds
         } else {
             echo "Getting messages from thread\n";
-            $asad =  $thread->getMessages();
-            $db->update('openai_user_requests', ['status' => 'completed', 'updated_at' => date("Y-m-d H:i:s"), 'ai_response_json' => $asad['data'][0]['content'][0]['text']['value']], ['id' => $request_id]);
+            $messages =  $thread->getMessages();
+
+
+            if (!empty($messages['data'][0]['file_ids'])) {
+                // api to get the file data
+                $response = Http::get('files/' . $messages['data'][0]['file_ids'][0] . "/content");
+                $aiResponseJson = json_encode($response);
+            } else {
+                $aiResponseJson = $messages['data'][0]['content'][0]['text']['value'];
+            }
+            $db->update('openai_user_requests', ['status' => 'completed', 'updated_at' => date("Y-m-d H:i:s"), 'ai_response_json' => $aiResponseJson], ['id' => $request_id]);
             return;
         }
     } while ($attempts < $maxAttempts);

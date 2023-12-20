@@ -80,7 +80,7 @@ class Message
                 $jsonData = json_decode($jsonString, true);
                 $extractedJson = json_encode($jsonData);
             } else {
-                $extractedJson = null;
+                $extractedJson = "{}";
             }
             $this->extracted_json = $extractedJson;
         }
