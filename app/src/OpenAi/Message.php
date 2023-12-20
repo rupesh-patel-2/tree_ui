@@ -62,7 +62,7 @@ class Message
             $msgObj = new self($msg);
             $msgObj->uuid = $msg['id'];
             $msgObj->created_at = date('Y-m-d H:i:s', $msg['created_at']);
-            $msgObj->extractJsonFromString();
+            // $msgObj->extractJsonFromString();
             $msgObj->save();
         }
     }

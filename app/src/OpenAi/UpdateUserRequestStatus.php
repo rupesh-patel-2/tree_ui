@@ -43,6 +43,9 @@ $messageData =  [
     'file_ids' => [$file->uuid]
 ];
 
+$mesasage = $thread->pushMessage($messageData);
+$run = $thread->createRun($assistant->uuid);
+
 function checkRun($thread, $assistant)
 {
     global $request_id, $db;
@@ -74,13 +77,30 @@ function checkRun($thread, $assistant)
                 $response = Http::get('files/' . $messages['data'][0]['file_ids'][0] . "/content");
                 $aiResponseJson = json_encode($response);
             } else {
-                $aiResponseJson = $messages['data'][0]['content'][0]['text']['value'];
+                $aiResponseJson = extractJsonFromString($messages['data'][0]['content'][0]['text']['value']);
             }
             $db->update('openai_user_requests', ['status' => 'completed', 'updated_at' => date("Y-m-d H:i:s"), 'ai_response_json' => $aiResponseJson], ['id' => $request_id]);
             return;
         }
     } while ($attempts < $maxAttempts);
     $db->update('openai_user_requests', ['status' => 'failed', 'updated_at' => date("Y-m-d H:i:s")], ['id' => $request_id]);
+}
+
+function extractJsonFromString($content)
+{
+    preg_match('/```json(.*?)```/s', $content, $matches);
+    $startPos = strpos($content, 'json');
+    if ($startPos !== false) {
+        preg_match('/```json(.*?)```/s', $content, $cleanedText);
+        if (isset($cleanedText[1])) {
+            $jsonString = str_replace("\n", '', $cleanedText[1]);
+            $jsonData = json_decode($jsonString, true);
+            $extractedJson = json_encode($jsonData);
+            return $extractedJson;
+        }
+    } else {
+        return $content;
+    }
 }
 
 checkRun($thread, $assistant);
